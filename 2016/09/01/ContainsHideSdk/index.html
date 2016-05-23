@@ -1,0 +1,738 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//ibruce.info/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,hide,sdk,global libraries,gradle," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Android &amp;#x7CFB;&amp;#x7EDF;&amp;#x5B58;&amp;#x5728;&amp;#x4E00;&amp;#x4E9B;&amp;#x7CFB;&amp;#x7EDF;&amp;#x7EA7;&amp;#x5E94;&amp;#x7528;&amp;#x4E0E; framework &amp;#x4EE3;&amp;#x7801;&amp;#x8026;&amp;#x5408;&amp;#x8F83;&amp;#x6DF1;&amp;#xFF0C;&amp;#x7528;&amp;#x5230;&amp;#x4E86;&amp;#x4E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle工程使用@hide接口">
+<meta property="og:url" content="http://lazycountry.github.io/2016/09/01/ContainsHideSdk/index.html">
+<meta property="og:site_name" content="懒人国度">
+<meta property="og:description" content="Android &amp;#x7CFB;&amp;#x7EDF;&amp;#x5B58;&amp;#x5728;&amp;#x4E00;&amp;#x4E9B;&amp;#x7CFB;&amp;#x7EDF;&amp;#x7EA7;&amp;#x5E94;&amp;#x7528;&amp;#x4E0E; framework &amp;#x4EE3;&amp;#x7801;&amp;#x8026;&amp;#x5408;&amp;#x8F83;&amp;#x6DF1;&amp;#xFF0C;&amp;#x7528;&amp;#x5230;&amp;#x4E86;&amp;#x4E">
+<meta property="og:image" content="http://lazycountry.github.io/2016/09/01/ContainsHideSdk/no_hide.png">
+<meta property="og:image" content="http://lazycountry.github.io/2016/09/01/ContainsHideSdk/global_libraries.png">
+<meta property="og:image" content="http://lazycountry.github.io/2016/09/01/ContainsHideSdk/global_libraries_top.png">
+<meta property="og:image" content="http://lazycountry.github.io/2016/09/01/ContainsHideSdk/have_hide.png">
+<meta property="og:updated_time" content="2016-10-17T09:21:30.486Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gradle工程使用@hide接口">
+<meta name="twitter:description" content="Android &amp;#x7CFB;&amp;#x7EDF;&amp;#x5B58;&amp;#x5728;&amp;#x4E00;&amp;#x4E9B;&amp;#x7CFB;&amp;#x7EDF;&amp;#x7EA7;&amp;#x5E94;&amp;#x7528;&amp;#x4E0E; framework &amp;#x4EE3;&amp;#x7801;&amp;#x8026;&amp;#x5408;&amp;#x8F83;&amp;#x6DF1;&amp;#xFF0C;&amp;#x7528;&amp;#x5230;&amp;#x4E86;&amp;#x4E">
+<meta name="twitter:image" content="http://lazycountry.github.io/2016/09/01/ContainsHideSdk/no_hide.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Gradle工程使用@hide接口 | 懒人国度 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">懒人国度</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Gradle工程使用@hide接口
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-01T11:24:08+08:00" content="2016-09-01">
+              2016-09-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/01/ContainsHideSdk/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/01/ContainsHideSdk/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/09/01/ContainsHideSdk/" class="leancloud_visitors" data-flag-title="Gradle工程使用@hide接口">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Android &#x7CFB;&#x7EDF;&#x5B58;&#x5728;&#x4E00;&#x4E9B;&#x7CFB;&#x7EDF;&#x7EA7;&#x5E94;&#x7528;&#x4E0E; framework &#x4EE3;&#x7801;&#x8026;&#x5408;&#x8F83;&#x6DF1;&#xFF0C;&#x7528;&#x5230;&#x4E86;&#x4E00;&#x4E9B; hide &#x63A5;&#x53E3;&#xFF0C;&#x5982;&#x56FE;</p>
+<p><img src="/2016/09/01/ContainsHideSdk/no_hide.png" alt="image"></p>
+<p>&#x975E;&#x5E38;&#x5F71;&#x54CD;&#x9605;&#x8BFB;&#x548C;&#x7F16;&#x7801;&#x3002;</p>
+<p>&#x4E00;&#x822C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; framework &#x7F16;&#x8BD1;&#x51FA;&#x6765;&#x7684; class.jar &#x4F5C;&#x4E3A; Global Libraries &#x5BFC;&#x5165;&#x5230;&#x9879;&#x76EE;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x3002;</p>
+<p><img src="/2016/09/01/ContainsHideSdk/global_libraries.png" alt="image"></p>
+<p>&#x5E76;&#x7F6E;&#x9876;</p>
+<p><img src="/2016/09/01/ContainsHideSdk/global_libraries_top.png" alt="image"></p>
+<p>&#x5C31;&#x53EF;&#x4EE5;&#x8BC6;&#x522B;&#x5230; hide &#x63A5;&#x53E3;&#x4E86;&#x3002;</p>
+<p>&#x4F46;&#x662F; gradle sync &#x4E4B;&#x540E;&#x8FD9;&#x4E2A;&#x914D;&#x7F6E;&#x53C8;&#x4F1A;&#x6D88;&#x5931;&#xFF0C;&#x6BCF;&#x6B21;&#x66F4;&#x65B0; gradle.build &#x6587;&#x4EF6;&#xFF0C;&#x91CD;&#x542F; IDEA &#x90FD;&#x4F1A;&#x5BFC;&#x81F4;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x8FDB;&#x884C;&#x8FD9;&#x4E2A;&#x914D;&#x7F6E;&#xFF0C;&#x4E0D;&#x80DC;&#x5176;&#x70E6;&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x8FD9;&#x91CC;&#x63D0;&#x4F9B;&#x4E2A;&#x65B9;&#x6CD5;&#x5728; gradle &#x548C; IDE &#x76F4;&#x63A5;&#x627E;&#x5230;&#x4E00;&#x4E2A;&#x8F83;&#x597D;&#x7684;&#x5E73;&#x8861;&#x70B9; &#x2014;- &#x4FEE;&#x6539; Android &#x5B98;&#x65B9; SDK&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#x4EE5; Android 5.0 &#x4E3A;&#x4F8B;&#x3002;</p>
+<ol>
+<li>&#x4E0B;&#x8F7D; 7.0 SDK &#x5305;&#xFF0C;&#x7136;&#x540E;&#x4ECE; \sdk\platforms\android-24 &#x76EE;&#x5F55;&#x4E0B;&#x53D6;&#x5230; android.jar&#x3002;</li>
+<li>&#x4ECE;&#x7F16;&#x8BD1;&#x73AF;&#x5883; out/target/common/obj/JAVA_LIBRARIES/framework_intermediates/ &#x76EE;&#x5F55;&#x4E0B;&#x6E20;&#x9053; classes-full-debug.jar</li>
+<li>&#x89E3;&#x538B; android.jar&#xFF0C;&#x65B9;&#x6CD5;&#xFF1A;&#x9996;&#x5148;&#x6539;&#x540D;&#x4E3A; android.zip,&#x7136;&#x540E;&#x7528; winrar &#x89E3;&#x538B;&#x5230;&#x672C;&#x5730;&#x6587;&#x4EF6;&#x5939;&#x3002;&#x89E3;&#x538B; classes-full-debug.jar&#xFF0C;&#x65B9;&#x6CD5;&#x548C;&#x89E3;&#x538B; android.jar &#x4E00;&#x6837;&#x3002;</li>
+<li>&#x5C06; classes-full-debug.zip &#x5305;&#x91CC;&#x9762;&#x7684;&#x6587;&#x4EF6;&#x5168;&#x90E8;&#x590D;&#x5236;&#x5230; android.zip &#x5BF9;&#x5E94;&#x7684;&#x6587;&#x4EF6;&#x5939;&#x4E2D;&#xFF0C;&#x7136;&#x540E;&#x91CD;&#x65B0;&#x5C06; android.zip &#x6587;&#x4EF6;&#x5939;&#x6253;&#x5305;&#x4E3A; android.jar&#x3002;&#x6B64;&#x65F6;&#x751F;&#x6210;&#x7684; android.jar &#x662F;&#x5305;&#x542B;&#x4E86;&#x6240;&#x6709; @hide &#x63A5;&#x53E3;&#x7684; SDK &#x5305;&#x3002;</li>
+</ol>
+<p>&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x65E0;&#x8BBA;&#x4F60;&#x662F;&#x5982;&#x4F55; gradle sync&#xFF0C;&#x518D;&#x6B21;&#x91CD;&#x542F; IDEA &#x90FD;&#x53EF;&#x4EE5;&#x627E;&#x5230; hide &#x63A5;&#x53E3;&#x4E86;&#x3002;</p>
+<p><img src="/2016/09/01/ContainsHideSdk/have_hide.png" alt="image"></p>
+<p>&#x8FD9;&#x91CC;&#x63D0;&#x4F9B;&#x4E2A; 7.0 &#x5DF2;&#x7ECF;&#x5305;&#x542B; hide &#x63A5;&#x53E3;&#x7684;android.jar, <a href="http://ac-s2be5mnv.clouddn.com/20f2f78cf1c9b608.jar" target="_blank" rel="external">&#x70B9;&#x51FB;&#x4E0B;&#x8F7D;</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/hide/" rel="tag">#hide</a>
+          
+            <a href="/tags/sdk/" rel="tag">#sdk</a>
+          
+            <a href="/tags/global-libraries/" rel="tag">#global libraries</a>
+          
+            <a href="/tags/gradle/" rel="tag">#gradle</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/15/StudyAndroidVpnService/" rel="next" title="Android自带VPN服务框架学习">
+                <i class="fa fa-chevron-left"></i> Android自带VPN服务框架学习
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/10/battery/" rel="prev" title="Android 耗电量统计">
+                Android 耗电量统计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/01/ContainsHideSdk/"
+           data-title="Gradle工程使用@hide接口" data-url="http://lazycountry.github.io/2016/09/01/ContainsHideSdk/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="懒人国度" />
+          <p class="site-author-name" itemprop="name">懒人国度</p>
+          <p class="site-description motion-element" itemprop="description">尽力去做，但是到了实在不行的时候就原谅自己</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LazyCountry" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/LazyCountry" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">懒人国度</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lazycountry"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("s2Be5mNvlWpliq1Aj2mAe2Wo-gzGzoHsz", "QSWwVz0vT3Ppow51GO3xgyvg");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

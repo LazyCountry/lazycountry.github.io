@@ -1,0 +1,767 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//ibruce.info/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,VpnService," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Android&amp;#x4ECE;4.0&amp;#x5F00;&amp;#x59CB;&amp;#xFF08;API LEVEL 15&amp;#xFF09;&amp;#xFF0C;&amp;#x589E;&amp;#x52A0;&amp;#x4E86;VpnService&amp;#x8FD9;&amp;#x4E2A;API&amp;#xFF0C;&amp;#x5728;&amp;#x4E0D;&amp;#x7528;root&amp;#x7684;&amp;#x60C5;&amp;#x51B5;&amp;#x4E0B;&amp;#x5C31;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android自带VPN服务框架学习">
+<meta property="og:url" content="http://lazycountry.github.io/2016/07/15/StudyAndroidVpnService/index.html">
+<meta property="og:site_name" content="懒人国度">
+<meta property="og:description" content="Android&amp;#x4ECE;4.0&amp;#x5F00;&amp;#x59CB;&amp;#xFF08;API LEVEL 15&amp;#xFF09;&amp;#xFF0C;&amp;#x589E;&amp;#x52A0;&amp;#x4E86;VpnService&amp;#x8FD9;&amp;#x4E2A;API&amp;#xFF0C;&amp;#x5728;&amp;#x4E0D;&amp;#x7528;root&amp;#x7684;&amp;#x60C5;&amp;#x51B5;&amp;#x4E0B;&amp;#x5C31;&amp;">
+<meta property="og:image" content="http://lazycountry.github.io/2016/07/15/StudyAndroidVpnService/vpn_framework.png">
+<meta property="og:image" content="http://lazycountry.github.io/2016/07/15/StudyAndroidVpnService/vpn_confirm.png">
+<meta property="og:image" content="http://lazycountry.github.io/2016/07/15/StudyAndroidVpnService/vpn_info.png">
+<meta property="og:updated_time" content="2016-07-15T08:24:21.233Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android自带VPN服务框架学习">
+<meta name="twitter:description" content="Android&amp;#x4ECE;4.0&amp;#x5F00;&amp;#x59CB;&amp;#xFF08;API LEVEL 15&amp;#xFF09;&amp;#xFF0C;&amp;#x589E;&amp;#x52A0;&amp;#x4E86;VpnService&amp;#x8FD9;&amp;#x4E2A;API&amp;#xFF0C;&amp;#x5728;&amp;#x4E0D;&amp;#x7528;root&amp;#x7684;&amp;#x60C5;&amp;#x51B5;&amp;#x4E0B;&amp;#x5C31;&amp;">
+<meta name="twitter:image" content="http://lazycountry.github.io/2016/07/15/StudyAndroidVpnService/vpn_framework.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Android自带VPN服务框架学习 | 懒人国度 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">懒人国度</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android自带VPN服务框架学习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-15T14:13:47+08:00" content="2016-07-15">
+              2016-07-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/15/StudyAndroidVpnService/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/15/StudyAndroidVpnService/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/07/15/StudyAndroidVpnService/" class="leancloud_visitors" data-flag-title="Android自带VPN服务框架学习">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Android&#x4ECE;4.0&#x5F00;&#x59CB;&#xFF08;API LEVEL 15&#xFF09;&#xFF0C;&#x589E;&#x52A0;&#x4E86;VpnService&#x8FD9;&#x4E2A;API&#xFF0C;&#x5728;&#x4E0D;&#x7528;root&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x3002;</p>
+<p>&#x4E00;&#x3001;&#x57FA;&#x672C;&#x539F;&#x7406;</p>
+<p>&#x5728;&#x4ECB;&#x7ECD;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x8FD9;&#x4E9B;&#x65B0;&#x589E;&#x7684;API&#x4E4B;&#x524D;&#xFF0C;&#x5148;&#x6765;&#x8BF4;&#x8BF4;&#x5176;&#x57FA;&#x672C;&#x7684;&#x539F;&#x7406;&#x3002;</p>
+<p>Android&#x8BBE;&#x5907;&#x4E0A;&#xFF0C;&#x5982;&#x679C;&#x5DF2;&#x7ECF;&#x4F7F;&#x7528;&#x4E86;VpnService&#x6846;&#x67B6;&#xFF0C;&#x5EFA;&#x7ACB;&#x8D77;&#x4E86;&#x4E00;&#x6761;&#x4ECE;&#x8BBE;&#x5907;&#x5230;&#x8FDC;&#x7AEF;&#x7684;VPN&#x94FE;&#x63A5;&#xFF0C;&#x90A3;&#x4E48;&#x6570;&#x636E;&#x5305;&#x5728;&#x8BBE;&#x5907;&#x4E0A;&#x5927;&#x81F4;&#x7ECF;&#x5386;&#x4E86;&#x5982;&#x4E0B;&#x56DB;&#x4E2A;&#x8FC7;&#x7A0B;&#x7684;&#x8F6C;&#x6362;&#xFF1A;</p>
+<p><img src="/2016/07/15/StudyAndroidVpnService/vpn_framework.png" alt="image"></p>
+<p>1&#xFF09;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4F7F;&#x7528;socket&#xFF0C;&#x5C06;&#x76F8;&#x5E94;&#x7684;&#x6570;&#x636E;&#x5305;&#x53D1;&#x9001;&#x5230;&#x771F;&#x5B9E;&#x7684;&#x7F51;&#x7EDC;&#x8BBE;&#x5907;&#x4E0A;&#x3002;&#x4E00;&#x822C;&#x79FB;&#x52A8;&#x8BBE;&#x5907;&#x53EA;&#x6709;&#x65E0;&#x7EBF;&#x7F51;&#x5361;&#xFF0C;&#x56E0;&#x6B64;&#x662F;&#x53D1;&#x9001;&#x5230;&#x771F;&#x5B9E;&#x7684;WiFi&#x8BBE;&#x5907;&#x4E0A;&#xFF1B;</p>
+<p>2&#xFF09;Android&#x7CFB;&#x7EDF;&#x901A;&#x8FC7;iptables&#xFF0C;&#x4F7F;&#x7528;NAT&#xFF0C;&#x5C06;&#x6240;&#x6709;&#x7684;&#x6570;&#x636E;&#x5305;&#x8F6C;&#x53D1;&#x5230;TUN&#x865A;&#x62DF;&#x7F51;&#x7EDC;&#x8BBE;&#x5907;&#x4E0A;&#x53BB;&#xFF0C;&#x7AEF;&#x53E3;&#x662F;tun0&#xFF1B;</p>
+<p>3&#xFF09;VPN&#x7A0B;&#x5E8F;&#x901A;&#x8FC7;&#x6253;&#x5F00;/dev/tun&#x8BBE;&#x5907;&#xFF0C;&#x5E76;&#x8BFB;&#x53D6;&#x8BE5;&#x8BBE;&#x5907;&#x4E0A;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x53EF;&#x4EE5;&#x83B7;&#x5F97;&#x6240;&#x6709;&#x8F6C;&#x53D1;&#x5230;TUN&#x865A;&#x62DF;&#x7F51;&#x7EDC;&#x8BBE;&#x5907;&#x4E0A;&#x7684;IP&#x5305;&#x3002;&#x56E0;&#x4E3A;&#x8BBE;&#x5907;&#x4E0A;&#x7684;&#x6240;&#x6709;IP&#x5305;&#x90FD;&#x4F1A;&#x88AB;NAT&#x8F6C;&#x6210;&#x539F;&#x5730;&#x5740;&#x662F;tun0&#x7AEF;&#x53E3;&#x53D1;&#x9001;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x4F60;&#x7684;VPN&#x7A0B;&#x5E8F;&#x53EF;&#x4EE5;&#x83B7;&#x5F97;&#x8FDB;&#x51FA;&#x8BE5;&#x8BBE;&#x5907;&#x7684;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x7684;&#x6570;&#x636E;&#xFF08;&#x4E5F;&#x6709;&#x4F8B;&#x5916;&#xFF0C;&#x4E0D;&#x662F;&#x5168;&#x90E8;&#xFF0C;&#x6BD4;&#x5982;&#x56DE;&#x73AF;&#x6570;&#x636E;&#x5C31;&#x65E0;&#x6CD5;&#x83B7;&#x5F97;&#xFF09;&#xFF1B;</p>
+<p>4&#xFF09;VPN&#x6570;&#x636E;&#x53EF;&#x4EE5;&#x505A;&#x4E00;&#x4E9B;&#x5904;&#x7406;&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x5904;&#x7406;&#x8FC7;&#x540E;&#x7684;&#x6570;&#x636E;&#x5305;&#xFF0C;&#x901A;&#x8FC7;&#x771F;&#x5B9E;&#x7684;&#x7F51;&#x7EDC;&#x8BBE;&#x5907;&#x53D1;&#x9001;&#x51FA;&#x53BB;&#x3002;&#x4E3A;&#x4E86;&#x9632;&#x6B62;&#x53D1;&#x9001;&#x7684;&#x6570;&#x636E;&#x5305;&#x518D;&#x88AB;&#x8F6C;&#x5230;TUN&#x865A;&#x62DF;&#x7F51;&#x7EDC;&#x8BBE;&#x5907;&#x4E0A;&#xFF0C;VPN&#x7A0B;&#x5E8F;&#x6240;&#x4F7F;&#x7528;&#x7684;socket&#x5FC5;&#x987B;&#x5148;&#x88AB;&#x660E;&#x786E;&#x7ED1;&#x5B9A;&#x5230;&#x771F;&#x5B9E;&#x7684;&#x7F51;&#x7EDC;&#x8BBE;&#x5907;&#x4E0A;&#x53BB;&#x3002;</p>
+<p>&#x4E8C;&#x3001;&#x4EE3;&#x7801;&#x5B9E;&#x73B0;</p>
+<p>&#x8981;&#x5B9E;&#x73B0;Android&#x8BBE;&#x5907;&#x4E0A;&#x7684;VPN&#x7A0B;&#x5E8F;&#xFF0C;&#x4E00;&#x822C;&#x9700;&#x8981;&#x5206;&#x522B;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x7EE7;&#x627F;&#x81EA;Activity&#x7C7B;&#x7684;&#x5E26;UI&#x7684;&#x5BA2;&#x6237;&#x7A0B;&#x5E8F;&#x548C;&#x4E00;&#x4E2A;&#x7EE7;&#x627F;&#x81EA;VpnService&#x7C7B;&#x7684;&#x670D;&#x52A1;&#x7A0B;&#x5E8F;&#x3002;</p>
+<p>&#x7533;&#x660E;Service</p>
+<p>&#x8981;&#x60F3;&#x8BA9;&#x4F60;&#x7684;VPN&#x7A0B;&#x5E8F;&#x6B63;&#x5E38;&#x8FD0;&#x884C;&#xFF0C;&#x9996;&#x5148;&#x5FC5;&#x987B;&#x8981;&#x5728;AndroidManifest.xml&#x7533;&#x660E;Service<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;service android:name=&quot;.service.MyVpnService&quot;</span><br><span class="line">           android:permission=&quot;android.permission.BIND_VPN_SERVICE&quot;&gt;</span><br><span class="line">           &lt;intent-filter&gt;</span><br><span class="line">               &lt;action android:name=&quot;android.net.VpnService&quot;/&gt;</span><br><span class="line">           &lt;/intent-filter&gt;</span><br><span class="line">       &lt;/service&gt;</span><br></pre></td></tr></table></figure></p>
+<p>&#x5BA2;&#x6237;&#x7A0B;&#x5E8F;&#x5B9E;&#x73B0;</p>
+<p>&#x5BA2;&#x6237;&#x7A0B;&#x5E8F;&#x4E00;&#x822C;&#x8981;&#x9996;&#x5148;&#x8C03;&#x7528;VpnService.prepare&#x51FD;&#x6570;&#xFF1A;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = VpnService.prepare(this);  </span><br><span class="line">if (intent != null) {  </span><br><span class="line">    startActivityForResult(intent, 0);  </span><br><span class="line">} else {  </span><br><span class="line">    onActivityResult(0, RESULT_OK, null);  </span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>&#x76EE;&#x524D;Android&#x53EA;&#x652F;&#x6301;&#x4E00;&#x6761;VPN&#x8FDE;&#x63A5;&#xFF0C;&#x5982;&#x679C;&#x65B0;&#x7684;&#x7A0B;&#x5E8F;&#x60F3;&#x5EFA;&#x7ACB;&#x4E00;&#x6761;VPN&#x8FDE;&#x63A5;&#xFF0C;&#x5FC5;&#x987B;&#x5148;&#x4E2D;&#x65AD;&#x7CFB;&#x7EDF;&#x4E2D;&#x5F53;&#x524D;&#x5B58;&#x5728;&#x7684;&#x90A3;&#x4E2A;VPN&#x8FDE;&#x63A5;&#x3002;</p>
+<p>&#x540C;&#x65F6;&#xFF0C;&#x7531;&#x4E8E;VPN&#x7A0B;&#x5E8F;&#x7684;&#x6743;&#x5229;&#x5B9E;&#x5728;&#x592A;&#x5927;&#x4E86;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x6B63;&#x5F0F;&#x5EFA;&#x7ACB;&#x4E4B;&#x524D;&#xFF0C;&#x8FD8;&#x8981;&#x5F39;&#x51FA;&#x4E00;&#x4E2A;&#x5BF9;&#x8BDD;&#x6846;&#xFF0C;&#x8BA9;&#x7528;&#x6237;&#x70B9;&#x5934;&#x786E;&#x8BA4;&#x3002;</p>
+<p><img src="/2016/07/15/StudyAndroidVpnService/vpn_confirm.png" alt="image"></p>
+<p>VpnService.prepare&#x51FD;&#x6570;&#x7684;&#x76EE;&#x7684;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x7528;&#x6765;&#x68C0;&#x67E5;&#x5F53;&#x524D;&#x7CFB;&#x7EDF;&#x4E2D;&#x662F;&#x4E0D;&#x662F;&#x5DF2;&#x7ECF;&#x5B58;&#x5728;&#x4E00;&#x4E2A;VPN&#x8FDE;&#x63A5;&#x4E86;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x4E86;&#x7684;&#x8BDD;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#x5C31;&#x662F;&#x672C;&#x7A0B;&#x5E8F;&#x521B;&#x5EFA;&#x7684;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x5F53;&#x524D;&#x7CFB;&#x7EDF;&#x4E2D;&#x6CA1;&#x6709;VPN&#x8FDE;&#x63A5;&#xFF0C;&#x6216;&#x8005;&#x5B58;&#x5728;&#x7684;VPN&#x8FDE;&#x63A5;&#x4E0D;&#x662F;&#x672C;&#x7A0B;&#x5E8F;&#x5EFA;&#x7ACB;&#x7684;&#xFF0C;&#x5219;VpnService.prepare&#x51FD;&#x6570;&#x4F1A;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;intent&#x3002;&#x8FD9;&#x4E2A;intent&#x5C31;&#x662F;&#x7528;&#x6765;&#x89E6;&#x53D1;&#x786E;&#x8BA4;&#x5BF9;&#x8BDD;&#x6846;&#x7684;&#xFF0C;&#x7A0B;&#x5E8F;&#x4F1A;&#x63A5;&#x7740;&#x8C03;&#x7528;startActivityForResult&#x5C06;&#x5BF9;&#x8BDD;&#x6846;&#x5F39;&#x51FA;&#x6765;&#x7B49;&#x7528;&#x6237;&#x786E;&#x8BA4;&#x3002;&#x5982;&#x679C;&#x7528;&#x6237;&#x786E;&#x8BA4;&#x4E86;&#xFF0C;&#x5219;&#x4F1A;&#x5173;&#x95ED;&#x524D;&#x9762;&#x5DF2;&#x7ECF;&#x5EFA;&#x7ACB;&#x7684;VPN&#x8FDE;&#x63A5;&#xFF0C;&#x5E76;&#x91CD;&#x7F6E;&#x865A;&#x62DF;&#x7AEF;&#x53E3;&#x3002;&#x8BE5;&#x5BF9;&#x8BDD;&#x6846;&#x8FD4;&#x56DE;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x8C03;&#x7528;onActivityResult&#x51FD;&#x6570;&#xFF0C;&#x5E76;&#x544A;&#x4E4B;&#x7528;&#x6237;&#x7684;&#x9009;&#x62E9;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x5F53;&#x524D;&#x7CFB;&#x7EDF;&#x4E2D;&#x6709;VPN&#x8FDE;&#x63A5;&#xFF0C;&#x5E76;&#x4E14;&#x8FD9;&#x4E2A;&#x8FDE;&#x63A5;&#x5C31;&#x662F;&#x672C;&#x7A0B;&#x5E8F;&#x5EFA;&#x7ACB;&#x7684;&#xFF0C;&#x5219;&#x51FD;&#x6570;&#x4F1A;&#x8FD4;&#x56DE;null&#xFF0C;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x7528;&#x6237;&#x518D;&#x786E;&#x8BA4;&#x4E86;&#x3002;&#x56E0;&#x4E3A;&#x7528;&#x6237;&#x5728;&#x672C;&#x7A0B;&#x5E8F;&#x7B2C;&#x4E00;&#x6B21;&#x5EFA;&#x7ACB;VPN&#x8FDE;&#x63A5;&#x7684;&#x65F6;&#x5019;&#x5DF2;&#x7ECF;&#x786E;&#x8BA4;&#x8FC7;&#x4E86;&#xFF0C;&#x5C31;&#x4E0D;&#x8981;&#x518D;&#x91CD;&#x590D;&#x786E;&#x8BA4;&#x4E86;&#xFF0C;&#x76F4;&#x63A5;&#x624B;&#x52A8;&#x8C03;&#x7528;onActivityResult&#x51FD;&#x6570;&#x5C31;&#x884C;&#x4E86;&#x3002;</p>
+<p>&#x5728;onActivityResult&#x51FD;&#x6570;&#x4E2D;&#xFF0C;&#x5904;&#x7406;&#x76F8;&#x5BF9;&#x7B80;&#x5355;&#xFF1A;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">protected void onActivityResult(int request, int result, Intent data) {  </span><br><span class="line">    if (result == RESULT_OK) {  </span><br><span class="line">        Intent intent = new Intent(this, MyVpnService.class);  </span><br><span class="line">        ...  </span><br><span class="line">        startService(intent);  </span><br><span class="line">    }  </span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>&#x5982;&#x679C;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x662F;OK&#x7684;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x7528;&#x6237;&#x540C;&#x610F;&#x5EFA;&#x7ACB;VPN&#x8FDE;&#x63A5;&#xFF0C;&#x5219;&#x5C06;&#x4F60;&#x5199;&#x7684;&#xFF0C;&#x7EE7;&#x627F;&#x81EA;VpnService&#x7C7B;&#x7684;&#x670D;&#x52A1;&#x542F;&#x52A8;&#x8D77;&#x6765;&#x5C31;&#x884C;&#x4E86;&#x3002;</p>
+<p>&#x5F53;&#x7136;&#xFF0C;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;intent&#x4F20;&#x9012;&#x4E00;&#x4E9B;&#x522B;&#x7684;&#x53C2;&#x6570;&#x3002;</p>
+<p>&#x670D;&#x52A1;&#x7A0B;&#x5E8F;&#x5B9E;&#x73B0;</p>
+<p>&#x670D;&#x52A1;&#x7A0B;&#x5E8F;&#x5FC5;&#x987B;&#x8981;&#x7EE7;&#x627F;&#x81EA;android.net.VpnService&#x7C7B;&#xFF1A;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class MyVpnService extends VpnService ...</span><br></pre></td></tr></table></figure>
+<p>VpnService&#x7C7B;&#x5C01;&#x88C5;&#x4E86;&#x5EFA;&#x7ACB;VPN&#x8FDE;&#x63A5;&#x6240;&#x5FC5;&#x987B;&#x7684;&#x6240;&#x6709;&#x51FD;&#x6570;&#xFF0C;&#x540E;&#x9762;&#x4F1A;&#x9010;&#x6B65;&#x7528;&#x5230;&#x3002;</p>
+<p>&#x5EFA;&#x7ACB;&#x94FE;&#x63A5;&#x7684;&#x7B2C;&#x4E00;&#x6B65;&#x662F;&#x8981;&#x7528;&#x5408;&#x9002;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x521B;&#x5EFA;&#x5E76;&#x521D;&#x59CB;&#x5316;&#x597D;tun0&#x865A;&#x62DF;&#x7F51;&#x7EDC;&#x7AEF;&#x53E3;&#xFF0C;&#x8FD9;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5728;VpnService&#x7C7B;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x5185;&#x90E8;&#x7C7B;Builder&#x6765;&#x505A;&#x5230;&#xFF1A;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Builder builder = new Builder();  </span><br><span class="line">builder.setMtu(...);  </span><br><span class="line">builder.addAddress(...);  </span><br><span class="line">builder.addRoute(...);  </span><br><span class="line">builder.addDnsServer(...);  </span><br><span class="line">builder.addSearchDomain(...);  </span><br><span class="line">builder.setSession(...);  </span><br><span class="line">builder.setConfigureIntent(...);</span><br></pre></td></tr></table></figure>
+<p>ParcelFileDescriptor interface = builder.establish();<br>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x8FD9;&#x91CC;&#x4F7F;&#x7528;&#x4E86;&#x6807;&#x51C6;&#x7684;Builder&#x8BBE;&#x8BA1;&#x6A21;&#x5F0F;&#x3002;&#x5728;&#x6B63;&#x5F0F;&#x5EFA;&#x7ACB;&#xFF08;establish&#xFF09;&#x865A;&#x62DF;&#x7F51;&#x7EDC;&#x63A5;&#x53E3;&#x4E4B;&#x524D;&#xFF0C;&#x9700;&#x8981;&#x8BBE;&#x7F6E;&#x597D;&#x51E0;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x5206;&#x522B;&#x662F;&#xFF1A;</p>
+<p>1&#xFF09;MTU&#xFF08;Maximun Transmission Unit&#xFF09;&#xFF0C;&#x5373;&#x8868;&#x793A;&#x865A;&#x62DF;&#x7F51;&#x7EDC;&#x7AEF;&#x53E3;&#x7684;&#x6700;&#x5927;&#x4F20;&#x8F93;&#x5355;&#x5143;&#xFF0C;&#x5982;&#x679C;&#x53D1;&#x9001;&#x7684;&#x5305;&#x957F;&#x5EA6;&#x8D85;&#x8FC7;&#x8FD9;&#x4E2A;&#x6570;&#x5B57;&#xFF0C;&#x5219;&#x4F1A;&#x88AB;&#x5206;&#x5305;&#xFF1B;</p>
+<p>2&#xFF09;Address&#xFF0C;&#x5373;&#x8FD9;&#x4E2A;&#x865A;&#x62DF;&#x7F51;&#x7EDC;&#x7AEF;&#x53E3;&#x7684;IP&#x5730;&#x5740;&#xFF1B;</p>
+<p>3&#xFF09;Route&#xFF0C;&#x53EA;&#x6709;&#x5339;&#x914D;&#x4E0A;&#x7684;IP&#x5305;&#xFF0C;&#x624D;&#x4F1A;&#x88AB;&#x8DEF;&#x7531;&#x5230;&#x865A;&#x62DF;&#x7AEF;&#x53E3;&#x4E0A;&#x53BB;&#x3002;&#x5982;&#x679C;&#x662F;0.0.0.0/0&#x7684;&#x8BDD;&#xFF0C;&#x5219;&#x4F1A;&#x5C06;&#x6240;&#x6709;&#x7684;IP&#x5305;&#x90FD;&#x8DEF;&#x7531;&#x5230;&#x865A;&#x62DF;&#x7AEF;&#x53E3;&#x4E0A;&#x53BB;&#xFF1B;</p>
+<p>4&#xFF09;DNS Server&#xFF0C;&#x5C31;&#x662F;&#x8BE5;&#x7AEF;&#x53E3;&#x7684;DNS&#x670D;&#x52A1;&#x5668;&#x5730;&#x5740;&#xFF1B;</p>
+<p>5&#xFF09;Search Domain&#xFF0C;&#x5C31;&#x662F;&#x6DFB;&#x52A0;DNS&#x57DF;&#x540D;&#x7684;&#x81EA;&#x52A8;&#x8865;&#x9F50;&#x3002;DNS&#x670D;&#x52A1;&#x5668;&#x5FC5;&#x987B;&#x901A;&#x8FC7;&#x5168;&#x57DF;&#x540D;&#x8FDB;&#x884C;&#x641C;&#x7D22;&#xFF0C;&#x4F46;&#x6BCF;&#x6B21;&#x67E5;&#x627E;&#x90FD;&#x8F93;&#x5165;&#x5168;&#x57DF;&#x540D;&#x592A;&#x9EBB;&#x70E6;&#x4E86;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x914D;&#x7F6E;&#x57DF;&#x540D;&#x7684;&#x81EA;&#x52A8;&#x8865;&#x9F50;&#x89C4;&#x5219;&#x4E88;&#x4EE5;&#x7B80;&#x5316;&#xFF1B;</p>
+<p>6&#xFF09;Session&#xFF0C;&#x5C31;&#x662F;&#x4F60;&#x8981;&#x5EFA;&#x7ACB;&#x7684;VPN&#x8FDE;&#x63A5;&#x7684;&#x540D;&#x5B57;&#xFF0C;&#x5B83;&#x5C06;&#x4F1A;&#x5728;&#x7CFB;&#x7EDF;&#x7BA1;&#x7406;&#x7684;&#x4E0E;VPN&#x8FDE;&#x63A5;&#x76F8;&#x5173;&#x7684;&#x901A;&#x77E5;&#x680F;&#x548C;&#x5BF9;&#x8BDD;&#x6846;&#x4E2D;&#x663E;&#x793A;&#x51FA;&#x6765;&#xFF1B;</p>
+<p><img src="/2016/07/15/StudyAndroidVpnService/vpn_info.png" alt="image"></p>
+<p>7&#xFF09;Configure Intent&#xFF0C;&#x8FD9;&#x4E2A;intent&#x6307;&#x5411;&#x4E00;&#x4E2A;&#x914D;&#x7F6E;&#x9875;&#x9762;&#xFF0C;&#x7528;&#x6765;&#x914D;&#x7F6E;VPN&#x94FE;&#x63A5;&#x3002;&#x5B83;&#x4E0D;&#x662F;&#x5FC5;&#x987B;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x8BBE;&#x7F6E;&#x7684;&#x8BDD;&#xFF0C;&#x5219;&#x7CFB;&#x7EDF;&#x5F39;&#x51FA;&#x7684;VPN&#x76F8;&#x5173;&#x5BF9;&#x8BDD;&#x6846;&#x4E2D;&#x4E0D;&#x4F1A;&#x51FA;&#x73B0;&#x914D;&#x7F6E;&#x6309;&#x94AE;&#x3002;</p>
+<p>&#x6700;&#x540E;&#x8C03;&#x7528;Builder.establish&#x51FD;&#x6570;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x5207;&#x6B63;&#x5E38;&#x7684;&#x8BDD;&#xFF0C;tun0&#x865A;&#x62DF;&#x7F51;&#x7EDC;&#x63A5;&#x53E3;&#x5C31;&#x5EFA;&#x7ACB;&#x5B8C;&#x6210;&#x4E86;&#x3002;&#x5E76;&#x4E14;&#xFF0C;&#x540C;&#x65F6;&#x8FD8;&#x4F1A;&#x901A;&#x8FC7;iptables&#x547D;&#x4EE4;&#xFF0C;&#x4FEE;&#x6539;NAT&#x8868;&#xFF0C;&#x5C06;&#x6240;&#x6709;&#x6570;&#x636E;&#x8F6C;&#x53D1;&#x5230;tun0&#x63A5;&#x53E3;&#x4E0A;&#x3002;</p>
+<p>&#x8FD9;&#x4E4B;&#x540E;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8BFB;&#x5199;VpnService.Builder&#x8FD4;&#x56DE;&#x7684;ParcelFileDescriptor&#x5B9E;&#x4F8B;&#x6765;&#x83B7;&#x5F97;&#x8BBE;&#x5907;&#x4E0A;&#x6240;&#x6709;&#x5411;&#x5916;&#x53D1;&#x9001;&#x7684;IP&#x6570;&#x636E;&#x5305;&#x548C;&#x8FD4;&#x56DE;&#x5904;&#x7406;&#x8FC7;&#x540E;&#x7684;IP&#x6570;&#x636E;&#x5305;&#x5230;TCP/IP&#x534F;&#x8BAE;&#x6808;&#xFF1A;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// Packets to be sent are queued in this input stream.  </span><br><span class="line">FileInputStream in = new FileInputStream(interface.getFileDescriptor());  </span><br><span class="line">  </span><br><span class="line">// Packets received need to be written to this output stream.  </span><br><span class="line">FileOutputStream out = new FileOutputStream(interface.getFileDescriptor());  </span><br><span class="line">  </span><br><span class="line">// Allocate the buffer for a single packet.  </span><br><span class="line">ByteBuffer packet = ByteBuffer.allocate(32767);  </span><br><span class="line">...  </span><br><span class="line">// Read packets sending to this interface  </span><br><span class="line">int length = in.read(packet.array());  </span><br><span class="line">...  </span><br><span class="line">// Write response packets back  </span><br><span class="line">out.write(packet.array(), 0, length);</span><br></pre></td></tr></table></figure>
+<p>ParcelFileDescriptor&#x7C7B;&#x6709;&#x4E00;&#x4E2A;getFileDescriptor&#x51FD;&#x6570;&#xFF0C;&#x5176;&#x4F1A;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x5C06;&#x5BF9;&#x63A5;&#x53E3;&#x7684;&#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#x8F6C;&#x6362;&#x6210;&#x5BF9;&#x6587;&#x4EF6;&#x7684;&#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x6BCF;&#x6B21;&#x8C03;&#x7528;FileInputStream.read&#x51FD;&#x6570;&#x4F1A;&#x8BFB;&#x53D6;&#x4E00;&#x4E2A;IP&#x6570;&#x636E;&#x5305;&#xFF0C;&#x800C;&#x8C03;&#x7528;FileOutputStream.write&#x51FD;&#x6570;&#x4F1A;&#x5199;&#x5165;&#x4E00;&#x4E2A;IP&#x6570;&#x636E;&#x5305;&#x5230;TCP/IP&#x534F;&#x8BAE;&#x6808;&#x3002;</p>
+<p>&#x8FD9;&#x5176;&#x5B9E;&#x57FA;&#x672C;&#x4E0A;&#x5C31;&#x662F;&#x8FD9;&#x4E2A;&#x6240;&#x8C13;&#x7684;VpnService&#x7684;&#x5168;&#x90E8;&#x4E86;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#x89C9;&#x5F97;&#x6709;&#x70B9;&#x5947;&#x602A;&#xFF0C;&#x534A;&#x70B9;&#x6CA1;&#x6D89;&#x53CA;&#x5230;&#x5EFA;&#x7ACB;VPN&#x94FE;&#x63A5;&#x7684;&#x4E8B;&#x60C5;&#x3002;&#x8FD9;&#x4E2A;&#x6846;&#x67B6;&#x5176;&#x5B9E;&#x53EA;&#x662F;&#x53EF;&#x4EE5;&#x8BA9;&#x67D0;&#x4E2A;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x53EF;&#x4EE5;&#x65B9;&#x4FBF;&#x7684;&#x622A;&#x83B7;&#x8BBE;&#x5907;&#x4E0A;&#x6240;&#x6709;&#x53D1;&#x9001;&#x51FA;&#x53BB;&#x548C;&#x63A5;&#x6536;&#x5230;&#x7684;&#x6570;&#x636E;&#x5305;&#xFF0C;&#x4EC5;&#x6B64;&#x800C;&#x5DF2;&#x3002;&#x80FD;&#x83B7;&#x5F97;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x5305;&#xFF0C;&#x5F53;&#x7136;&#x53EF;&#x4EE5;&#x975E;&#x5E38;&#x65B9;&#x4FBF;&#x7684;&#x5C06;&#x5B83;&#x4EEC;&#x5C01;&#x88C5;&#x8D77;&#x6765;&#xFF0C;&#x548C;&#x8FDC;&#x7AEF;VPN&#x670D;&#x52A1;&#x5668;&#x5EFA;&#x7ACB;VPN&#x94FE;&#x63A5;&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x4E00;&#x5757;VpnService&#x6846;&#x67B6;&#x5E76;&#x6CA1;&#x6709;&#x6D89;&#x53CA;&#xFF0C;&#x7559;&#x7ED9;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x81EA;&#x5DF1;&#x89E3;&#x51B3;&#x3002;</p>
+<p>&#x8FD8;&#x6709;&#x4E00;&#x70B9;&#x8981;&#x7279;&#x522B;&#x89E3;&#x91CA;&#x4E00;&#x4E0B;&#xFF0C;&#x4E00;&#x822C;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x5728;&#x83B7;&#x5F97;&#x8FD9;&#x4E9B;IP&#x6570;&#x636E;&#x5305;&#x540E;&#xFF0C;&#x4F1A;&#x5C06;&#x5B83;&#x4EEC;&#x518D;&#x901A;&#x8FC7;socket&#x53D1;&#x9001;&#x51FA;&#x53BB;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x8FD9;&#x6837;&#x505A;&#x4F1A;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x5EFA;&#x7ACB;&#x7684;socket&#x548C;&#x522B;&#x7684;&#x7A0B;&#x5E8F;&#x5EFA;&#x7ACB;&#x7684;socket&#x5176;&#x5B9E;&#x6CA1;&#x6709;&#x533A;&#x522B;&#xFF0C;&#x53D1;&#x9001;&#x51FA;&#x53BB;&#x540E;&#xFF0C;&#x8FD8;&#x662F;&#x4F1A;&#x88AB;&#x8F6C;&#x53D1;&#x5230;tun0&#x63A5;&#x53E3;&#xFF0C;&#x518D;&#x56DE;&#x5230;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x6B7B;&#x5FAA;&#x73AF;&#x4E86;&#x3002;&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;VpnService&#x7C7B;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x53EB;protect&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x5728;VPN&#x7A0B;&#x5E8F;&#x81EA;&#x5DF1;&#x5EFA;&#x7ACB;socket&#x4E4B;&#x540E;&#xFF0C;&#x5FC5;&#x987B;&#x8981;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x4FDD;&#x62A4;&#xFF1A;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protect(my_socket);</span><br></pre></td></tr></table></figure>
+<p>&#x5176;&#x80CC;&#x540E;&#x7684;&#x539F;&#x7406;&#x662F;&#x5C06;&#x8FD9;&#x4E2A;socket&#x548C;&#x771F;&#x5B9E;&#x7684;&#x7F51;&#x7EDC;&#x63A5;&#x53E3;&#x8FDB;&#x884C;&#x7ED1;&#x5B9A;&#xFF0C;&#x4FDD;&#x8BC1;&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;socket&#x53D1;&#x9001;&#x51FA;&#x53BB;&#x7684;&#x6570;&#x636E;&#x5305;&#x4E00;&#x5B9A;&#x662F;&#x901A;&#x8FC7;&#x771F;&#x5B9E;&#x7684;&#x7F51;&#x7EDC;&#x63A5;&#x53E3;&#x53D1;&#x9001;&#x51FA;&#x53BB;&#x7684;&#xFF0C;&#x4E0D;&#x4F1A;&#x88AB;&#x8F6C;&#x53D1;&#x5230;&#x865A;&#x62DF;&#x7684;tun0&#x63A5;&#x53E3;&#x4E0A;&#x53BB;&#x3002;</p>
+<p>&#x597D;&#x4E86;&#xFF0C;Android&#x7CFB;&#x7EDF;&#x9ED8;&#x8BA4;&#x63D0;&#x4F9B;&#x7684;&#x8FD9;&#x4E2A;VPN&#x6846;&#x67B6;&#x5C31;&#x53EA;&#x6709;&#x8FD9;&#x4E48;&#x70B9;&#x4E1C;&#x897F;&#x3002;</p>
+<p>&#x6700;&#x540E;&#xFF0C;&#x7B80;&#x5355;&#x603B;&#x7ED3;&#x4E00;&#x4E0B;&#xFF1A;</p>
+<p>1&#xFF09;VPN&#x8FDE;&#x63A5;&#x5BF9;&#x4E8E;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x6765;&#x8BF4;&#x662F;&#x5B8C;&#x5168;&#x900F;&#x660E;&#x7684;&#xFF0C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5B8C;&#x5168;&#x611F;&#x77E5;&#x4E0D;&#x5230;VPN&#x7684;&#x5B58;&#x5728;&#xFF0C;&#x4E5F;&#x4E0D;&#x9700;&#x8981;&#x4E3A;&#x652F;&#x6301;VPN&#x505A;&#x4EFB;&#x4F55;&#x66F4;&#x6539;&#xFF1B;</p>
+<p>2&#xFF09;&#x5E76;&#x4E0D;&#x9700;&#x8981;&#x83B7;&#x5F97;Android&#x8BBE;&#x5907;&#x7684;root&#x6743;&#x9650;&#x5C31;&#x53EF;&#x4EE5;&#x5EFA;&#x7ACB;VPN&#x8FDE;&#x63A5;&#x3002;&#x4F60;&#x6240;&#x9700;&#x8981;&#x7684;&#x53EA;&#x662F;&#x5728;&#x4F60;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5185;&#x7684;AndroidManifest.xml&#x6587;&#x4EF6;&#x4E2D;&#x7533;&#x660E;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x53EB;&#x505A;&#x201C;android.permission.BIND_VPN_SERVICE&#x201D;&#x7684;&#x7279;&#x6B8A;&#x6743;&#x9650;&#xFF1B;</p>
+<p>3&#xFF09;&#x5728;&#x6B63;&#x5F0F;&#x5EFA;&#x7ACB;VPN&#x94FE;&#x63A5;&#x4E4B;&#x524D;&#xFF0C;Android&#x7CFB;&#x7EDF;&#x4F1A;&#x5F39;&#x51FA;&#x4E00;&#x4E2A;&#x5BF9;&#x8BDD;&#x6846;&#xFF0C;&#x9700;&#x8981;&#x7528;&#x6237;&#x660E;&#x786E;&#x7684;&#x540C;&#x610F;&#xFF1B;</p>
+<p>4&#xFF09;&#x4E00;&#x65E6;&#x5EFA;&#x7ACB;&#x8D77;&#x4E86;VPN&#x8FDE;&#x63A5;&#xFF0C;Android&#x8BBE;&#x5907;&#x4E0A;&#x6240;&#x6709;&#x53D1;&#x9001;&#x51FA;&#x53BB;&#x7684;IP&#x5305;&#xFF0C;&#x90FD;&#x4F1A;&#x88AB;&#x8F6C;&#x53D1;&#x5230;&#x865A;&#x62DF;&#x7F51;&#x5361;&#x7684;&#x7F51;&#x7EDC;&#x63A5;&#x53E3;&#x4E0A;&#x53BB;&#xFF08;&#x4E3B;&#x8981;&#x662F;&#x901A;&#x8FC7;&#x7ED9;&#x4E0D;&#x540C;&#x7684;&#x5957;&#x63A5;&#x5B57;&#x6253;fwmark&#x6807;&#x7B7E;&#x548C;iproute2&#x7B56;&#x7565;&#x8DEF;&#x7531;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#xFF09;&#xFF1B;</p>
+<p>5&#xFF09;VPN&#x7A0B;&#x5E8F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8BFB;&#x53D6;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;&#x4E0A;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x6765;&#x83B7;&#x5F97;&#x6240;&#x6709;&#x8BBE;&#x5907;&#x4E0A;&#x53D1;&#x9001;&#x51FA;&#x53BB;&#x7684;IP&#x5305;&#xFF1B;&#x540C;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5199;&#x5165;&#x6570;&#x636E;&#x5230;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;&#x4E0A;&#xFF0C;&#x5C06;&#x4EFB;&#x4F55;IP&#x6570;&#x636E;&#x5305;&#x63D2;&#x5165;&#x7CFB;&#x7EDF;&#x7684;TCP/IP&#x534F;&#x8BAE;&#x6808;&#xFF0C;&#x6700;&#x7EC8;&#x9001;&#x7ED9;&#x63A5;&#x6536;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF1B;</p>
+<p>6&#xFF09;Android&#x7CFB;&#x7EDF;&#x4E2D;&#x540C;&#x4E00;&#x65F6;&#x95F4;&#x53EA;&#x5141;&#x8BB8;&#x5EFA;&#x7ACB;&#x4E00;&#x6761;VPN&#x94FE;&#x63A5;&#x3002;&#x5982;&#x679C;&#x6709;&#x7A0B;&#x5E8F;&#x60F3;&#x5EFA;&#x7ACB;&#x65B0;&#x7684;VPN&#x94FE;&#x63A5;&#xFF0C;&#x5728;&#x83B7;&#x5F97;&#x7528;&#x6237;&#x540C;&#x610F;&#x540E;&#xFF0C;&#x524D;&#x9762;&#x5DF2;&#x6709;&#x7684;VPN&#x94FE;&#x63A5;&#x4F1A;&#x88AB;&#x4E2D;&#x65AD;&#xFF1B;</p>
+<p>7&#xFF09;&#x8FD9;&#x4E2A;&#x6846;&#x67B6;&#x867D;&#x7136;&#x53EB;&#x505A;VpnService&#xFF0C;&#x4F46;&#x5176;&#x5B9E;&#x53EA;&#x662F;&#x8BA9;&#x7A0B;&#x5E8F;&#x53EF;&#x4EE5;&#x83B7;&#x5F97;&#x8BBE;&#x5907;&#x4E0A;&#x7684;&#x6240;&#x6709;IP&#x6570;&#x636E;&#x5305;&#x3002;&#x901A;&#x8FC7;&#x524D;&#x9762;&#x7684;&#x7B80;&#x5355;&#x5206;&#x6790;&#xFF0C;&#x5927;&#x5BB6;&#x5E94;&#x8BE5;&#x5DF2;&#x7ECF;&#x611F;&#x89C9;&#x5230;&#x4E86;&#xFF0C;&#x8FD9;&#x4E2A;&#x6240;&#x8C13;&#x7684;VPN&#x670D;&#x52A1;&#xFF0C;&#x7684;&#x786E;&#x53EF;&#x4EE5;&#x65B9;&#x4FBF;&#x7684;&#x7528;&#x6765;&#x5728;Android&#x8BBE;&#x5907;&#x4E0A;&#x5EFA;&#x7ACB;&#x548C;&#x8FDC;&#x7AEF;&#x670D;&#x52A1;&#x5668;&#x4E4B;&#x95F4;&#x7684;VPN&#x8FDE;&#x63A5;&#xFF0C;&#x4F46;&#x5176;&#x5B9E;&#x5B83;&#x4E5F;&#x53EF;&#x4EE5;&#x88AB;&#x7528;&#x6765;&#x5E72;&#x5F88;&#x591A;&#x6709;&#x8DA3;&#x7684;&#x4E8B;&#x60C5;&#xFF0C;&#x6BD4;&#x5982;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x505A;&#x9632;&#x706B;&#x5899;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x6293;&#x8BBE;&#x5907;&#x4E0A;&#x7684;&#x6240;&#x6709;IP&#x5305;&#x3002;</p>
+<p>&#x672C;&#x6587;&#x5927;&#x90E8;&#x5206;&#x5185;&#x5BB9;&#x8F6C;&#x8F7D;&#x81EA;<a href="http://blog.csdn.net/roland_sun/article/details/46337171" target="_blank" rel="external">&#x4F20;&#x9001;&#x95E8;</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/VpnService/" rel="tag">#VpnService</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/01/ContainsHideSdk/" rel="prev" title="Gradle工程使用@hide接口">
+                Gradle工程使用@hide接口 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/15/StudyAndroidVpnService/"
+           data-title="Android自带VPN服务框架学习" data-url="http://lazycountry.github.io/2016/07/15/StudyAndroidVpnService/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="懒人国度" />
+          <p class="site-author-name" itemprop="name">懒人国度</p>
+          <p class="site-description motion-element" itemprop="description">尽力去做，但是到了实在不行的时候就原谅自己</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LazyCountry" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/LazyCountry" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">懒人国度</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lazycountry"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("s2Be5mNvlWpliq1Aj2mAe2Wo-gzGzoHsz", "QSWwVz0vT3Ppow51GO3xgyvg");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

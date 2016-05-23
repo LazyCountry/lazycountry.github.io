@@ -1,0 +1,714 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//ibruce.info/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Battery," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x5C06;&amp;#x7535;&amp;#x6C60;&amp;#x6BD4;&amp;#x55BB;&amp;#x4E3A;&amp;#x84C4;&amp;#x6C34;&amp;#x6C60;&amp;#xFF0C;&amp;#x5219;&amp;#x7CFB;&amp;#x7EDF;&amp;#x7EDF;&amp;#x8BA1;&amp;#x7684;&amp;#xFF08;DrainType&amp;#xFF09;&amp;#x5C31;&amp;#x662F;&amp;#x4E0D;&amp;#x540C;&amp;#x7C7B;&amp;#x578">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 耗电量统计">
+<meta property="og:url" content="http://lazycountry.github.io/2017/01/10/battery/index.html">
+<meta property="og:site_name" content="懒人国度">
+<meta property="og:description" content="&amp;#x5C06;&amp;#x7535;&amp;#x6C60;&amp;#x6BD4;&amp;#x55BB;&amp;#x4E3A;&amp;#x84C4;&amp;#x6C34;&amp;#x6C60;&amp;#xFF0C;&amp;#x5219;&amp;#x7CFB;&amp;#x7EDF;&amp;#x7EDF;&amp;#x8BA1;&amp;#x7684;&amp;#xFF08;DrainType&amp;#xFF09;&amp;#x5C31;&amp;#x662F;&amp;#x4E0D;&amp;#x540C;&amp;#x7C7B;&amp;#x578">
+<meta property="og:updated_time" content="2017-01-11T10:26:30.673Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 耗电量统计">
+<meta name="twitter:description" content="&amp;#x5C06;&amp;#x7535;&amp;#x6C60;&amp;#x6BD4;&amp;#x55BB;&amp;#x4E3A;&amp;#x84C4;&amp;#x6C34;&amp;#x6C60;&amp;#xFF0C;&amp;#x5219;&amp;#x7CFB;&amp;#x7EDF;&amp;#x7EDF;&amp;#x8BA1;&amp;#x7684;&amp;#xFF08;DrainType&amp;#xFF09;&amp;#x5C31;&amp;#x662F;&amp;#x4E0D;&amp;#x540C;&amp;#x7C7B;&amp;#x578">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Android 耗电量统计 | 懒人国度 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">懒人国度</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android 耗电量统计
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-10T14:59:17+08:00" content="2017-01-10">
+              2017-01-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/10/battery/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/10/battery/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/10/battery/" class="leancloud_visitors" data-flag-title="Android 耗电量统计">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p> &#x5C06;&#x7535;&#x6C60;&#x6BD4;&#x55BB;&#x4E3A;&#x84C4;&#x6C34;&#x6C60;&#xFF0C;&#x5219;&#x7CFB;&#x7EDF;&#x7EDF;&#x8BA1;&#x7684;&#xFF08;DrainType&#xFF09;&#x5C31;&#x662F;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x6392;&#x6C34;&#x3002;</p>
+<h2 id="wakeLock-&#x8017;&#x7535;&#x8BA1;&#x7B97;"><a href="#wakeLock-&#x8017;&#x7535;&#x8BA1;&#x7B97;" class="headerlink" title="wakeLock &#x8017;&#x7535;&#x8BA1;&#x7B97;"></a>wakeLock &#x8017;&#x7535;&#x8BA1;&#x7B97;</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public WakelockPowerCalculator(PowerProfile profile) {</span><br><span class="line">       mPowerWakelock = profile.getAveragePower(PowerProfile.POWER_CPU_AWAKE);</span><br><span class="line">   }</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   @Override</span><br><span class="line">   public void calculateApp(BatterySipper app, BatteryStats.Uid u, long rawRealtimeUs,</span><br><span class="line">                            long rawUptimeUs, int statsType) {</span><br><span class="line">       long wakeLockTimeUs = 0;</span><br><span class="line">       final ArrayMap&lt;String, ? extends BatteryStats.Uid.Wakelock&gt; wakelockStats =</span><br><span class="line">               u.getWakelockStats();</span><br><span class="line">       final int wakelockStatsCount = wakelockStats.size();</span><br><span class="line">       for (int i = 0; i &lt; wakelockStatsCount; i++) {</span><br><span class="line">           final BatteryStats.Uid.Wakelock wakelock = wakelockStats.valueAt(i);</span><br><span class="line"></span><br><span class="line">           // Only care about partial wake locks since full wake locks</span><br><span class="line">           // are canceled when the user turns the screen off.</span><br><span class="line">           BatteryStats.Timer timer = wakelock.getWakeTime(BatteryStats.WAKE_TYPE_PARTIAL);</span><br><span class="line">           if (timer != null) {</span><br><span class="line">               wakeLockTimeUs += timer.getTotalTimeLocked(rawRealtimeUs, statsType);</span><br><span class="line">           }</span><br><span class="line">       }</span><br><span class="line">       app.wakeLockTimeMs = wakeLockTimeUs / 1000; // convert to millis</span><br><span class="line">       mTotalAppWakelockTimeMs += app.wakeLockTimeMs;</span><br><span class="line"></span><br><span class="line">       // Add cost of holding a wake lock.</span><br><span class="line">       app.wakeLockPowerMah = (app.wakeLockTimeMs * mPowerWakelock) / (1000*60*60);</span><br><span class="line">       if (DEBUG &amp;&amp; app.wakeLockPowerMah != 0) {</span><br><span class="line">           Log.d(TAG, &quot;UID &quot; + u.getUid() + &quot;: wake &quot; + app.wakeLockTimeMs</span><br><span class="line">                   + &quot; power=&quot; + BatteryStatsHelper.makemAh(app.wakeLockPowerMah));</span><br><span class="line">       }</span><br><span class="line">   }</span><br></pre></td></tr></table></figure>
+<p>wakelock &#x963B;&#x6B62;cpu&#x8FDB;&#x5165;&#x4F11;&#x7720;&#xFF0C;&#x6240;&#x4EE5;&#x4F7F;&#x7528;&#x4E86;cpu_awake&#x7684;&#x503C;&#x8FDB;&#x884C;&#x8BA1;&#x7B97;&#x3002;<br>&#x9996;&#x5148;&#x83B7;&#x5F97;Wakelock&#x7684;&#x6570;&#x91CF;&#xFF0C;&#x7136;&#x540E;&#x9010;&#x4E2A;&#x904D;&#x5386;&#x5F97;&#x5230;&#x6BCF;&#x4E2A;Wakelock&#x5BF9;&#x8C61;&#xFF0C;&#x5F97;&#x5230;&#x8BE5;&#x5BF9;&#x8C61;&#x540E;&#xFF0C;&#x5F97;&#x5230;BatteryStats.WAKE_TYPE_PARTIAL&#x7684;&#x5524;&#x9192;&#x65F6;&#x95F4;&#xFF0C;&#x7136;&#x540E;&#x7D2F;&#x52A0;&#xFF0C;&#x5176;&#x5B9E;wakelock&#x6709;4&#x79CD;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x53EA;&#x53D6;partial&#x7684;&#x65F6;&#x95F4;,&#x5177;&#x4F53;&#x4EE3;&#x7801;google&#x4E5F;&#x6CA1;&#x89E3;&#x91CA;&#x7684;&#x5F88;&#x6E05;&#x695A;,&#x53EA;&#x662F;&#x7528;&#x4E00;&#x53E5;&#x6CE8;&#x91CA;&#x6253;&#x53D1;&#x4E86;&#x6211;&#x4EEC;&#x3002;&#x5F97;&#x5230;&#x603B;&#x65F6;&#x95F4;&#x540E;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4E0E;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x4E2D;&#x7684;&#x5355;&#x4F4D;&#x65F6;&#x95F4;waklock&#x6D88;&#x8017;&#x7535;&#x91CF;&#x76F8;&#x4E58;&#x5F97;&#x5230;Wakelock&#x6D88;&#x8017;&#x7684;&#x603B;&#x7535;&#x91CF;&#x3002;</p>
+<p>Q:&#x4E3A;&#x5565;app&#x4E0B;&#x6709;wifi&#x8017;&#x7535;&#xFF0C;&#x8FD8;&#x8981;&#x5355;&#x72EC;&#x4E00;&#x4E2A;DrainType&#x7EDF;&#x8BA1;wifi&#x8017;&#x7535;&#xFF0C;&#x662F;&#x5426;&#x662F;&#x91CD;&#x590D;&#x7EDF;&#x8BA1;&#xFF1F;&#x6240;&#x6709;&#x7684;app&#x548C;&#x786C;&#x4EF6;&#x8017;&#x7535;&#x76F8;&#x52A0;&#x4E3A;&#x5565;&#x662F;100%&#xFF1F;<br>A:&#x7CFB;&#x7EDF;&#x4F1A;&#x5148;&#x8BA1;&#x7B97;app&#x8017;&#x7535;&#xFF0C;&#x5C06;&#x5F52;&#x5C5E;&#x5728;&#x5BF9;&#x5E94;uid&#x4E0B;&#x9762;&#x7684;&#x8017;&#x7535;&#x5148;&#x8BA1;&#x7B97;&#x51FA;&#x6765;&#xFF0C;&#x540E;&#x518D;&#x5C06;&#x5269;&#x4F59;&#x7535;&#x91CF;&#x8BA1;&#x7B97;&#x51FA;&#x6765;&#x5E76;&#x5F52;&#x5C5E;&#x4E8E;&#x5BF9;&#x5E94;&#x786C;&#x4EF6;&#x3002;&#x4EE5;wifi&#x4E3A;&#x4F8B;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">public WifiPowerCalculator(PowerProfile profile) {</span><br><span class="line">       mIdleCurrentMa = profile.getAveragePower(PowerProfile.POWER_WIFI_CONTROLLER_IDLE);</span><br><span class="line">       mTxCurrentMa = profile.getAveragePower(PowerProfile.POWER_WIFI_CONTROLLER_TX);</span><br><span class="line">       mRxCurrentMa = profile.getAveragePower(PowerProfile.POWER_WIFI_CONTROLLER_RX);</span><br><span class="line">   }</span><br><span class="line"></span><br><span class="line">   @Override</span><br><span class="line">   public void calculateApp(BatterySipper app, BatteryStats.Uid u, long rawRealtimeUs,</span><br><span class="line">                            long rawUptimeUs, int statsType) {</span><br><span class="line">       //&#x83B7;&#x53D6;&#x5BF9;&#x5E94;uid&#x4E0B;&#x7684;counter</span><br><span class="line">       final BatteryStats.ControllerActivityCounter counter = u.getWifiControllerActivity();</span><br><span class="line">       if (counter == null) {</span><br><span class="line">           return;</span><br><span class="line">       }</span><br><span class="line">	//&#x5BF9;&#x5E94;uid&#x4E0B;&#x7684;time</span><br><span class="line">       final long idleTime = counter.getIdleTimeCounter().getCountLocked(statsType);</span><br><span class="line">       final long txTime = counter.getTxTimeCounters()[0].getCountLocked(statsType);</span><br><span class="line">       final long rxTime = counter.getRxTimeCounter().getCountLocked(statsType);</span><br><span class="line">       app.wifiRunningTimeMs = idleTime + rxTime + txTime;</span><br><span class="line">	//&#x5DF2;&#x7ECF;&#x8BA1;&#x7B97;&#x7684;&#x5E94;&#x7528;&#x7684;wifi&#x603B;&#x8017;&#x65F6;</span><br><span class="line">       mTotalAppRunningTime += app.wifiRunningTimeMs;</span><br><span class="line"></span><br><span class="line">	//&#x8BA1;&#x7B97;&#x5BF9;&#x5E94;uid&#x7684;app&#x8017;&#x7535;</span><br><span class="line">       app.wifiPowerMah =</span><br><span class="line">               ((idleTime * mIdleCurrentMa) + (txTime * mTxCurrentMa) + (rxTime * mRxCurrentMa))</span><br><span class="line">               / (1000*60*60);</span><br><span class="line">	//&#x5DF2;&#x7ECF;&#x8BA1;&#x7B97;&#x7684;&#x5E94;&#x7528;&#x7684;wifi&#x603B;&#x8017;&#x7535;</span><br><span class="line">       mTotalAppPowerDrain += app.wifiPowerMah;</span><br><span class="line"></span><br><span class="line">       app.wifiRxPackets = u.getNetworkActivityPackets(BatteryStats.NETWORK_WIFI_RX_DATA,</span><br><span class="line">               statsType);</span><br><span class="line">       app.wifiTxPackets = u.getNetworkActivityPackets(BatteryStats.NETWORK_WIFI_TX_DATA,</span><br><span class="line">               statsType);</span><br><span class="line">       app.wifiRxBytes = u.getNetworkActivityBytes(BatteryStats.NETWORK_WIFI_RX_DATA,</span><br><span class="line">               statsType);</span><br><span class="line">       app.wifiTxBytes = u.getNetworkActivityBytes(BatteryStats.NETWORK_WIFI_TX_DATA,</span><br><span class="line">               statsType);</span><br><span class="line"></span><br><span class="line">       if (DEBUG &amp;&amp; app.wifiPowerMah != 0) {</span><br><span class="line">           Log.d(TAG, &quot;UID &quot; + u.getUid() + &quot;: idle=&quot; + idleTime + &quot;ms rx=&quot; + rxTime + &quot;ms tx=&quot; +</span><br><span class="line">                   txTime + &quot;ms power=&quot; + BatteryStatsHelper.makemAh(app.wifiPowerMah));</span><br><span class="line">       }</span><br><span class="line">   }</span><br><span class="line"></span><br><span class="line">//&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x662F;&#x5728;&#x6240;&#x6709;app&#x8017;&#x7535;&#x8BA1;&#x7B97;&#x5B8C;&#x6210;&#x540E;&#x8C03;&#x7528;&#x7684;</span><br><span class="line">   @Override</span><br><span class="line">   public void calculateRemaining(BatterySipper app, BatteryStats stats, long rawRealtimeUs,</span><br><span class="line">                                  long rawUptimeUs, int statsType) {</span><br><span class="line">	//&#x83B7;&#x53D6;&#x603B;counter</span><br><span class="line">       final BatteryStats.ControllerActivityCounter counter = stats.getWifiControllerActivity();</span><br><span class="line"></span><br><span class="line">       final long idleTimeMs = counter.getIdleTimeCounter().getCountLocked(statsType);</span><br><span class="line">       final long txTimeMs = counter.getTxTimeCounters()[0].getCountLocked(statsType);</span><br><span class="line">       final long rxTimeMs = counter.getRxTimeCounter().getCountLocked(statsType);</span><br><span class="line">	//&#x8BA1;&#x7B97;&#x5269;&#x4F59;&#x7684;time</span><br><span class="line">       app.wifiRunningTimeMs = Math.max(0,</span><br><span class="line">               (idleTimeMs + rxTimeMs + txTimeMs) - mTotalAppRunningTime);</span><br><span class="line"></span><br><span class="line">       double powerDrainMah = counter.getPowerCounter().getCountLocked(statsType)</span><br><span class="line">               / (double)(1000*60*60);</span><br><span class="line">       if (powerDrainMah == 0) {</span><br><span class="line">           // Some controllers do not report power drain, so we can calculate it here.</span><br><span class="line">           powerDrainMah = ((idleTimeMs * mIdleCurrentMa) + (txTimeMs * mTxCurrentMa)</span><br><span class="line">                   + (rxTimeMs * mRxCurrentMa)) / (1000*60*60);</span><br><span class="line">       }</span><br><span class="line">	//&#x8BA1;&#x7B97;&#x5269;&#x4F59;&#x7684;&#x8017;&#x7535;</span><br><span class="line">       app.wifiPowerMah = Math.max(0, powerDrainMah - mTotalAppPowerDrain);</span><br><span class="line"></span><br><span class="line">       if (DEBUG) {</span><br><span class="line">           Log.d(TAG, &quot;left over WiFi power: &quot; + BatteryStatsHelper.makemAh(app.wifiPowerMah));</span><br><span class="line">       }</span><br><span class="line">   }</span><br></pre></td></tr></table></figure></p>
+<h2 id="IDLE&#x8BA1;&#x7B97;"><a href="#IDLE&#x8BA1;&#x7B97;" class="headerlink" title="IDLE&#x8BA1;&#x7B97;"></a>IDLE&#x8BA1;&#x7B97;</h2><p>&#x4E0D;&#x77E5;&#x9053;IDLE&#x8BA1;&#x7B97;&#x5565;&#x539F;&#x7406;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mTypeBatteryUptimeUs = mStats.computeBatteryUptime(rawUptimeUs, mStatsType);</span><br><span class="line">mTypeBatteryRealtimeUs = mStats.computeBatteryRealtime(rawRealtimeUs, mStatsType)</span><br><span class="line"></span><br><span class="line">final double suspendPowerMaMs = (mTypeBatteryRealtimeUs / 1000) *</span><br><span class="line">        mPowerProfile.getAveragePower(PowerProfile.POWER_CPU_IDLE);</span><br><span class="line">final double idlePowerMaMs = (mTypeBatteryUptimeUs / 1000) *</span><br><span class="line">        mPowerProfile.getAveragePower(PowerProfile.POWER_CPU_AWAKE);</span><br><span class="line">final double totalPowerMah = (suspendPowerMaMs + idlePowerMaMs) / (60 * 60 * 1000);</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * Returns the total, last, or current battery uptime in microseconds.</span><br><span class="line">     * &#x4E0A;&#x6B21;&#x6216;&#x5F53;&#x524D;&#x7535;&#x6C60;&#x6B63;&#x5E38;&#x8FD0;&#x884C;&#x65F6;&#x95F4;&#x3002;</span><br><span class="line">     * @param curTime the elapsed realtime in microseconds.</span><br><span class="line">     * @param which one of STATS_SINCE_CHARGED, STATS_SINCE_UNPLUGGED, or STATS_CURRENT.</span><br><span class="line">     */</span><br><span class="line">    public abstract long computeBatteryUptime(long curTime, int which);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Returns the total, last, or current battery realtime in microseconds.</span><br><span class="line">     * &#x6700;&#x540E;&#x6216;&#x5F53;&#x524D;&#x7535;&#x6C60;&#x5B9E;&#x65F6;&#x65F6;&#x95F4;</span><br><span class="line">     * @param curTime the current elapsed realtime in microseconds.</span><br><span class="line">     * @param which one of STATS_SINCE_CHARGED, STATS_SINCE_UNPLUGGED, or STATS_CURRENT.</span><br><span class="line">     */</span><br><span class="line">    public abstract long computeBatteryRealtime(long curTime, int which);</span><br></pre></td></tr></table></figure>
+<h2 id="CPU-&#x8BA1;&#x7B97;"><a href="#CPU-&#x8BA1;&#x7B97;" class="headerlink" title="CPU &#x8BA1;&#x7B97;"></a>CPU &#x8BA1;&#x7B97;</h2><p>CPU &#x90E8;&#x5206;&#x6CA1;&#x6709;remaining<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public void calculateApp(BatterySipper app, BatteryStats.Uid u, long rawRealtimeUs,</span><br><span class="line">                             long rawUptimeUs, int statsType) {</span><br><span class="line">        app.cpuTimeMs = (u.getUserCpuTimeUs(statsType) + u.getSystemCpuTimeUs(statsType)) / 1000;</span><br><span class="line"></span><br><span class="line">        // Aggregate total time spent on each cluster.</span><br><span class="line">        long totalTime = 0;</span><br><span class="line">        final int numClusters = mProfile.getNumCpuClusters();</span><br><span class="line">        for (int cluster = 0; cluster &lt; numClusters; cluster++) {</span><br><span class="line">            final int speedsForCluster = mProfile.getNumSpeedStepsInCpuCluster(cluster);</span><br><span class="line">            for (int speed = 0; speed &lt; speedsForCluster; speed++) {</span><br><span class="line">                totalTime += u.getTimeAtCpuSpeed(cluster, speed, statsType);</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        totalTime = Math.max(totalTime, 1);</span><br><span class="line"></span><br><span class="line">        double cpuPowerMaMs = 0;</span><br><span class="line">        for (int cluster = 0; cluster &lt; numClusters; cluster++) {</span><br><span class="line">            final int speedsForCluster = mProfile.getNumSpeedStepsInCpuCluster(cluster);</span><br><span class="line">            for (int speed = 0; speed &lt; speedsForCluster; speed++) {</span><br><span class="line">				//&#x83B7;&#x53D6;&#x5BF9;&#x5E94;cluster&#xFF0C;&#x5BF9;&#x5E94;speed&#x4E0B;&#x6240;&#x4F7F;&#x7528;&#x65F6;&#x95F4;&#x7684;&#x6BD4;&#x4F8B;</span><br><span class="line">                final double ratio = (double) u.getTimeAtCpuSpeed(cluster, speed, statsType) /</span><br><span class="line">                        totalTime;</span><br><span class="line">                final double cpuSpeedStepPower = ratio * app.cpuTimeMs *</span><br><span class="line">                        mProfile.getAveragePowerForCpu(cluster, speed);</span><br><span class="line">                if (DEBUG &amp;&amp; ratio != 0) {</span><br><span class="line">                    Log.d(TAG, &quot;UID &quot; + u.getUid() + &quot;: CPU cluster #&quot; + cluster + &quot; step #&quot;</span><br><span class="line">                            + speed + &quot; ratio=&quot; + BatteryStatsHelper.makemAh(ratio) + &quot; power=&quot;</span><br><span class="line">                            + BatteryStatsHelper.makemAh(cpuSpeedStepPower / (60 * 60 * 1000)));</span><br><span class="line">                }</span><br><span class="line">                cpuPowerMaMs += cpuSpeedStepPower;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        app.cpuPowerMah = cpuPowerMaMs / (60 * 60 * 1000);</span><br></pre></td></tr></table></figure></p>
+<h2 id="OVERCOUNTED&#xFF0C;UNACCOUNTED-&#x8BA1;&#x7B97;"><a href="#OVERCOUNTED&#xFF0C;UNACCOUNTED-&#x8BA1;&#x7B97;" class="headerlink" title="OVERCOUNTED&#xFF0C;UNACCOUNTED &#x8BA1;&#x7B97;"></a>OVERCOUNTED&#xFF0C;UNACCOUNTED &#x8BA1;&#x7B97;</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">mMinDrainedPower = (mStats.getLowDischargeAmountSinceCharge()</span><br><span class="line">        * mPowerProfile.getBatteryCapacity()) / 100;</span><br><span class="line">mMaxDrainedPower = (mStats.getHighDischargeAmountSinceCharge()</span><br><span class="line">        * mPowerProfile.getBatteryCapacity()) / 100;</span><br><span class="line"> </span><br><span class="line">mTotalPower = mComputedPower;</span><br><span class="line">if (mStats.getLowDischargeAmountSinceCharge() &gt; 1) {</span><br><span class="line">    if (mMinDrainedPower &gt; mComputedPower) {</span><br><span class="line">        double amount = mMinDrainedPower - mComputedPower;</span><br><span class="line">        mTotalPower = mMinDrainedPower;</span><br><span class="line">        BatterySipper bs = new BatterySipper(DrainType.UNACCOUNTED, null, amount);</span><br><span class="line"> </span><br><span class="line">         </span><br><span class="line">    } else if (mMaxDrainedPower &lt; mComputedPower) {</span><br><span class="line">        double amount = mComputedPower - mMaxDrainedPower;</span><br><span class="line"> </span><br><span class="line">        // Insert the BatterySipper in its sorted position.</span><br><span class="line">        BatterySipper bs = new BatterySipper(DrainType.OVERCOUNTED, null, amount);</span><br><span class="line">         </span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line">//&#x5176;&#x4E2D;getLowDischargeAmountSinceCharge</span><br><span class="line">@Override</span><br><span class="line">public int getLowDischargeAmountSinceCharge() {</span><br><span class="line">    synchronized(this) {</span><br><span class="line">        int val = mLowDischargeAmountSinceCharge;</span><br><span class="line">        if (mOnBattery &amp;&amp; mDischargeCurrentLevel &lt; mDischargeUnplugLevel) {</span><br><span class="line">            val += mDischargeUnplugLevel-mDischargeCurrentLevel-1;</span><br><span class="line">        }</span><br><span class="line">        return val;</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line">//mLowDischargeAmountSinceCharge&#x5728;setOnBatteryLocked &#x4F1A;&#x6539;&#x53D8;&#x8FD9;&#x4E2A;&#x503C;&#x3002;mLowDischargeAmountSinceCharge &#x548C;mHighDischargeAmountSinceCharge &#x8FD9;&#x4E24;&#x4E2A;&#x53D8;&#x91CF;&#x4E2D;&#xFF0C;&#x8FD9;&#x4E24;&#x4E2A;&#x53D8;&#x91CF;&#x5DEE;1&#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x8BEF;&#x5DEE;&#xFF0C;&#x53D7;&#x7535;&#x6C60;level&#x7CBE;&#x5EA6;&#x5F71;&#x54CD;</span><br><span class="line">void setOnBatteryLocked(final long mSecRealtime, final long mSecUptime, final boolean onBattery,</span><br><span class="line">        final int oldStatus, final int level, final int chargeUAh) {</span><br><span class="line">.......</span><br><span class="line">if (onBattery) {</span><br><span class="line">....</span><br><span class="line">} else {</span><br><span class="line">    mLastChargingStateLevel = level;</span><br><span class="line">    mOnBattery = mOnBatteryInternal = false;</span><br><span class="line">    pullPendingStateUpdatesLocked();</span><br><span class="line">    mHistoryCur.batteryLevel = (byte)level;</span><br><span class="line">    mHistoryCur.states |= HistoryItem.STATE_BATTERY_PLUGGED_FLAG;</span><br><span class="line">    if (DEBUG_HISTORY) Slog.v(TAG, &quot;Battery plugged to: &quot;</span><br><span class="line">            + Integer.toHexString(mHistoryCur.states));</span><br><span class="line">    addHistoryRecordLocked(mSecRealtime, mSecUptime);</span><br><span class="line">    mDischargeCurrentLevel = mDischargePlugLevel = level;</span><br><span class="line">    if (level &lt; mDischargeUnplugLevel) {//level&#x4EE3;&#x8868;&#x5F53;&#x524D;&#x7535;&#x91CF;&#xFF0C;mDischargeUnplugLevel&#x4EE3;&#x8868;&#x4E0A;&#x4E00;&#x6B21;&#x62D4;&#x53BB;usb&#x7EBF;&#x7684;&#x7535;&#x91CF; </span><br><span class="line">        mLowDischargeAmountSinceCharge += mDischargeUnplugLevel-level-1;//&#x7D2F;&#x8BA1;&#x6D88;&#x8017;&#x7684;&#x7535;&#x91CF; </span><br><span class="line">        mHighDischargeAmountSinceCharge += mDischargeUnplugLevel-level;</span><br><span class="line">    }</span><br><span class="line">    updateDischargeScreenLevelsLocked(screenOn, screenOn);</span><br><span class="line">    updateTimeBasesLocked(false, !screenOn, uptime, realtime);</span><br><span class="line">    mChargeStepTracker.init();</span><br><span class="line">    mLastChargeStepLevel = level;</span><br><span class="line">    mMaxChargeStepLevel = level;</span><br><span class="line">    mInitStepMode = mCurStepMode;</span><br><span class="line">    mModStepMode = 0;</span><br><span class="line">}</span><br><span class="line">//&#x518D;&#x770B;&#x4E0B;getLowDischargeAmountSinceCharge</span><br><span class="line">@Override</span><br><span class="line">public int getLowDischargeAmountSinceCharge() {</span><br><span class="line">    synchronized(this) {</span><br><span class="line">        int val = mLowDischargeAmountSinceCharge;</span><br><span class="line">        //&#x8868;&#x793A;&#x73B0;&#x5728;&#x6B63;&#x5728;&#x7528;&#x7535;&#x72B6;&#x6001;&#xFF0C;mDischargeCurrentLevel &#x53D8;&#x91CF;&#x4EE3;&#x8868;&#x7528;&#x7535;&#x7684;&#x65F6;&#x5019;&#x7684;&#x7535;&#x91CF;&#xFF0C;&#x4F1A;&#x65F6;&#x65F6;&#x66F4;&#x65B0;&#xFF0C;mDischargeUnplugLevel&#x4EE3;&#x8868;&#x4E0A;&#x4E00;&#x6B21;&#x62D4;&#x53BB;usb&#x7EBF;&#x7684;&#x4E00;&#x4E2A;&#x7535;&#x91CF;</span><br><span class="line">        if (mOnBattery &amp;&amp; mDischargeCurrentLevel &lt; mDischargeUnplugLevel) {</span><br><span class="line">            val += mDischargeUnplugLevel-mDischargeCurrentLevel-1;//&#x4E5F;&#x5C31;&#x662F;&#x52A0;&#x4E0A;&#x6700;&#x8FD1;&#x7684;&#x4E00;&#x6B21;&#x6D88;&#x8017;&#x7535;&#x91CF; </span><br><span class="line">        }</span><br><span class="line">        return val;</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line">//&#x518D;&#x770B;&#x4E0B;UNACCOUNTED&#xFF0C;OVERCOUNTED&#x8BA1;&#x7B97;</span><br><span class="line">mTotalPower = mComputedPower;</span><br><span class="line">if (mStats.getLowDischargeAmountSinceCharge() &gt; 1) {//&#x53EA;&#x7EDF;&#x8BA1;&#x6D88;&#x8017;&#x7684;&#x7535;&#x91CF;&#x5927;&#x4E8E;1</span><br><span class="line">    if (mMinDrainedPower &gt; mComputedPower) {//&#x5982;&#x679C;&#x5B9E;&#x9645;&#x603B;&#x7684;&#x6D88;&#x8017;&#x7535;&#x91CF;(min)&#x6BD4;&#x7EDF;&#x8BA1;&#x7684;&#x7535;&#x91CF;&#x5927;</span><br><span class="line">        double amount = mMinDrainedPower - mComputedPower;</span><br><span class="line">        mTotalPower = mMinDrainedPower;</span><br><span class="line">        BatterySipper bs = new BatterySipper(DrainType.UNACCOUNTED, null, amount);</span><br><span class="line"> </span><br><span class="line">         </span><br><span class="line">    } else if (mMaxDrainedPower &lt; mComputedPower) {//&#x5982;&#x679C;&#x5B9E;&#x9645;&#x603B;&#x7684;&#x6D88;&#x8017;&#x7535;&#x91CF;(max)&#x6BD4;&#x7EDF;&#x8BA1;&#x7684;&#x7535;&#x91CF;&#x5C0F;</span><br><span class="line">        double amount = mComputedPower - mMaxDrainedPower;</span><br><span class="line"> </span><br><span class="line">        // Insert the BatterySipper in its sorted position.</span><br><span class="line">        BatterySipper bs = new BatterySipper(DrainType.OVERCOUNTED, null, amount);</span><br><span class="line">         </span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/Battery/" rel="tag">#Battery</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/01/ContainsHideSdk/" rel="next" title="Gradle工程使用@hide接口">
+                <i class="fa fa-chevron-left"></i> Gradle工程使用@hide接口
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/12/raspberry/" rel="prev" title="树莓派配置记录备份">
+                树莓派配置记录备份 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/10/battery/"
+           data-title="Android 耗电量统计" data-url="http://lazycountry.github.io/2017/01/10/battery/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="懒人国度" />
+          <p class="site-author-name" itemprop="name">懒人国度</p>
+          <p class="site-description motion-element" itemprop="description">尽力去做，但是到了实在不行的时候就原谅自己</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LazyCountry" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/LazyCountry" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#wakeLock-耗电计算"><span class="nav-number">1.</span> <span class="nav-text">wakeLock 耗电计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDLE计算"><span class="nav-number">2.</span> <span class="nav-text">IDLE计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CPU-计算"><span class="nav-number">3.</span> <span class="nav-text">CPU 计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OVERCOUNTED，UNACCOUNTED-计算"><span class="nav-number">4.</span> <span class="nav-text">OVERCOUNTED，UNACCOUNTED 计算</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">懒人国度</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lazycountry"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("s2Be5mNvlWpliq1Aj2mAe2Wo-gzGzoHsz", "QSWwVz0vT3Ppow51GO3xgyvg");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

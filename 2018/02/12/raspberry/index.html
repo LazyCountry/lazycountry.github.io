@@ -1,0 +1,731 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//ibruce.info/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="树莓派," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x6811;&amp;#x8393;&amp;#x6D3E;&amp;#x7248;&amp;#x672C;2016-09-23-raspbian-jessie.zip
+&amp;#x4E00;&amp;#x3001;&amp;#x5C06;&amp;#x6811;&amp;#x8393;&amp;#x6D3E;&amp;#x6839;&amp;#x5206;&amp;#x533A;&amp;#x6269;&amp;#x5C55;&amp;#x5230;&amp;#x6574;&amp;#x5F20;sd&amp;#x5361;1&amp;#x300">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树莓派配置记录备份">
+<meta property="og:url" content="http://lazycountry.github.io/2018/02/12/raspberry/index.html">
+<meta property="og:site_name" content="懒人国度">
+<meta property="og:description" content="&amp;#x6811;&amp;#x8393;&amp;#x6D3E;&amp;#x7248;&amp;#x672C;2016-09-23-raspbian-jessie.zip
+&amp;#x4E00;&amp;#x3001;&amp;#x5C06;&amp;#x6811;&amp;#x8393;&amp;#x6D3E;&amp;#x6839;&amp;#x5206;&amp;#x533A;&amp;#x6269;&amp;#x5C55;&amp;#x5230;&amp;#x6574;&amp;#x5F20;sd&amp;#x5361;1&amp;#x300">
+<meta property="og:image" content="http://lazycountry.github.io/2018/02/12/raspberry/expand_file_system.png">
+<meta property="og:updated_time" content="2018-02-12T06:25:19.125Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="树莓派配置记录备份">
+<meta name="twitter:description" content="&amp;#x6811;&amp;#x8393;&amp;#x6D3E;&amp;#x7248;&amp;#x672C;2016-09-23-raspbian-jessie.zip
+&amp;#x4E00;&amp;#x3001;&amp;#x5C06;&amp;#x6811;&amp;#x8393;&amp;#x6D3E;&amp;#x6839;&amp;#x5206;&amp;#x533A;&amp;#x6269;&amp;#x5C55;&amp;#x5230;&amp;#x6574;&amp;#x5F20;sd&amp;#x5361;1&amp;#x300">
+<meta name="twitter:image" content="http://lazycountry.github.io/2018/02/12/raspberry/expand_file_system.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 树莓派配置记录备份 | 懒人国度 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">懒人国度</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                树莓派配置记录备份
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-02-12T14:25:19+08:00" content="2018-02-12">
+              2018-02-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/02/12/raspberry/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/02/12/raspberry/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/02/12/raspberry/" class="leancloud_visitors" data-flag-title="树莓派配置记录备份">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x6811;&#x8393;&#x6D3E;&#x7248;&#x672C;2016-09-23-raspbian-jessie.zip</p>
+<h3 id="&#x4E00;&#x3001;&#x5C06;&#x6811;&#x8393;&#x6D3E;&#x6839;&#x5206;&#x533A;&#x6269;&#x5C55;&#x5230;&#x6574;&#x5F20;sd&#x5361;"><a href="#&#x4E00;&#x3001;&#x5C06;&#x6811;&#x8393;&#x6D3E;&#x6839;&#x5206;&#x533A;&#x6269;&#x5C55;&#x5230;&#x6574;&#x5F20;sd&#x5361;" class="headerlink" title="&#x4E00;&#x3001;&#x5C06;&#x6811;&#x8393;&#x6D3E;&#x6839;&#x5206;&#x533A;&#x6269;&#x5C55;&#x5230;&#x6574;&#x5F20;sd&#x5361;"></a>&#x4E00;&#x3001;&#x5C06;&#x6811;&#x8393;&#x6D3E;&#x6839;&#x5206;&#x533A;&#x6269;&#x5C55;&#x5230;&#x6574;&#x5F20;sd&#x5361;</h3><p><img src="/2018/02/12/raspberry/expand_file_system.png" alt="image"><br>1&#x3001;&#x9009;&#x62E9;Expand Filesystem&#x8FDB;&#x884C;&#x6269;&#x5C55;<br>2&#x3001;&#x987A;&#x4FBF;&#x4FEE;&#x6539;&#x4E0B;Password</p>
+<h3 id="&#x4E8C;&#x3001;&#x5F00;&#x542F;root&#x7528;&#x6237;"><a href="#&#x4E8C;&#x3001;&#x5F00;&#x542F;root&#x7528;&#x6237;" class="headerlink" title="&#x4E8C;&#x3001;&#x5F00;&#x542F;root&#x7528;&#x6237;"></a>&#x4E8C;&#x3001;&#x5F00;&#x542F;root&#x7528;&#x6237;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd</span><br></pre></td></tr></table></figure>
+<p>&#x540E;&#x8F93;&#x5165;&#x4E24;&#x6B21;root&#x7528;&#x6237;&#x5BC6;&#x7801;</p>
+<h3 id="&#x4E09;&#x3001;&#x7ED9;&#x6811;&#x8393;&#x6D3E;&#x8BBE;&#x7F6E;&#x56FA;&#x5B9A;dns"><a href="#&#x4E09;&#x3001;&#x7ED9;&#x6811;&#x8393;&#x6D3E;&#x8BBE;&#x7F6E;&#x56FA;&#x5B9A;dns" class="headerlink" title="&#x4E09;&#x3001;&#x7ED9;&#x6811;&#x8393;&#x6D3E;&#x8BBE;&#x7F6E;&#x56FA;&#x5B9A;dns"></a>&#x4E09;&#x3001;&#x7ED9;&#x6811;&#x8393;&#x6D3E;&#x8BBE;&#x7F6E;&#x56FA;&#x5B9A;dns</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#&#x6267;&#x884C; </span><br><span class="line">sudo nano /etc/resolv.conf.head</span><br><span class="line">#&#x6DFB;&#x52A0;&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</span><br><span class="line">nameserver 114.114.114.114</span><br></pre></td></tr></table></figure>
+<h3 id="&#x56DB;&#x3001;&#x7ED9;&#x6811;&#x8393;&#x6D3E;&#x6307;&#x5B9A;ip&#xFF0C;&#x7F51;&#x5173;"><a href="#&#x56DB;&#x3001;&#x7ED9;&#x6811;&#x8393;&#x6D3E;&#x6307;&#x5B9A;ip&#xFF0C;&#x7F51;&#x5173;" class="headerlink" title="&#x56DB;&#x3001;&#x7ED9;&#x6811;&#x8393;&#x6D3E;&#x6307;&#x5B9A;ip&#xFF0C;&#x7F51;&#x5173;"></a>&#x56DB;&#x3001;&#x7ED9;&#x6811;&#x8393;&#x6D3E;&#x6307;&#x5B9A;ip&#xFF0C;&#x7F51;&#x5173;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/dhcpcd.conf</span><br><span class="line"></span><br><span class="line"># &#x6307;&#x5B9A;&#x63A5;&#x53E3; eth0</span><br><span class="line">interface eth0</span><br><span class="line"># &#x6307;&#x5B9A;&#x9759;&#x6001;IP&#xFF0C;/24&#x8868;&#x793A;&#x5B50;&#x7F51;&#x63A9;&#x7801;&#x4E3A; 255.255.255.0</span><br><span class="line">static ip_address=192.168.1.105/24</span><br><span class="line"># &#x8DEF;&#x7531;&#x5668;/&#x7F51;&#x5173;IP&#x5730;&#x5740;</span><br><span class="line">static routers=192.168.1.1</span><br></pre></td></tr></table></figure>
+<p>&#x91CD;&#x542F;&#xFF0C;&#x9A8C;&#x8BC1;&#x4E0B;&#x6811;&#x8393;&#x6D3E;&#x662F;&#x5426;&#x80FD;&#x591F;&#x6B63;&#x5E38;&#x4E0A;&#x7F51;</p>
+<h3 id="&#x4E94;&#x3001;&#x5C06;&#x6811;&#x8393;&#x6D3E;&#x4F5C;&#x4E3A;&#x5BB6;&#x91CC;&#x7684;&#x7F51;&#x5173;"><a href="#&#x4E94;&#x3001;&#x5C06;&#x6811;&#x8393;&#x6D3E;&#x4F5C;&#x4E3A;&#x5BB6;&#x91CC;&#x7684;&#x7F51;&#x5173;" class="headerlink" title="&#x4E94;&#x3001;&#x5C06;&#x6811;&#x8393;&#x6D3E;&#x4F5C;&#x4E3A;&#x5BB6;&#x91CC;&#x7684;&#x7F51;&#x5173;"></a>&#x4E94;&#x3001;&#x5C06;&#x6811;&#x8393;&#x6D3E;&#x4F5C;&#x4E3A;&#x5BB6;&#x91CC;&#x7684;&#x7F51;&#x5173;</h3><p>&#x6253;&#x5F00; NAT &#x7F51;&#x5173;&#xFF0C;&#x6267;&#x884C;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/sysctl.conf</span><br></pre></td></tr></table></figure></p>
+<p>&#x4FEE;&#x6539;&#x6307;&#x5B9A;&#x884C;&#x4E3A;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.ip_forward=1</span><br></pre></td></tr></table></figure></p>
+<p>&#x7136;&#x540E;&#x5728;&#x5BB6;&#x91CC;&#x8DEF;&#x7531;&#x5668;&#x7684;DHCP&#x670D;&#x52A1;&#x5668;&#x91CC;&#x7684;&#x7F51;&#x5173;&#x8BBE;&#x7F6E;&#x4E3A;&#x6811;&#x8393;&#x6D3E;ip(&#x5F53;&#x7136;&#x8981;&#x5148;&#x7ED9;&#x6811;&#x8393;&#x6D3E;&#x4E00;&#x4E2A;&#x56FA;&#x5B9A;ip&#x4E86;)</p>
+<h3 id="&#x516D;&#x3001;&#x4F7F;&#x7528;&#x6811;&#x8393;&#x6D3E;&#x5C4F;&#x853D;&#x5BB6;&#x91CC;&#x7684;&#x5E7F;&#x544A;"><a href="#&#x516D;&#x3001;&#x4F7F;&#x7528;&#x6811;&#x8393;&#x6D3E;&#x5C4F;&#x853D;&#x5BB6;&#x91CC;&#x7684;&#x5E7F;&#x544A;" class="headerlink" title="&#x516D;&#x3001;&#x4F7F;&#x7528;&#x6811;&#x8393;&#x6D3E;&#x5C4F;&#x853D;&#x5BB6;&#x91CC;&#x7684;&#x5E7F;&#x544A;"></a>&#x516D;&#x3001;&#x4F7F;&#x7528;&#x6811;&#x8393;&#x6D3E;&#x5C4F;&#x853D;&#x5BB6;&#x91CC;&#x7684;&#x5E7F;&#x544A;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s &quot;https://raw.githubusercontent.com/jacobsalmela/pi-hole/master/automated%20install/basic-install.sh&quot; | bash</span><br></pre></td></tr></table></figure>
+<p>&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x641E;&#x5B9A;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x8DEF;&#x7531;&#x5668;&#x7684;DHCP&#x670D;&#x52A1;&#x5668;&#x6307;&#x5B9A;&#x5230;&#x6811;&#x8393;&#x6D3E;ip</p>
+<h3 id="&#x4E03;&#x3001;git-server&#x642D;&#x5EFA;"><a href="#&#x4E03;&#x3001;git-server&#x642D;&#x5EFA;" class="headerlink" title="&#x4E03;&#x3001;git server&#x642D;&#x5EFA;"></a>&#x4E03;&#x3001;git server&#x642D;&#x5EFA;</h3><p>1&#x3001;&#x6811;&#x8393;&#x6D3E;&#x5305;&#x542B;git&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;<br>2&#x3001;&#x4F7F;&#x7528;ssh&#x534F;&#x8BAE;&#xFF08;ssh://&#xFF09;<br>3&#x3001;&#x4F7F;&#x7528;win&#x4E0B;&#x7684;id_rsa.pub &#x4E0A;&#x4F20;&#x5230;&#x6811;&#x8393;&#x6D3E;&#x4E2D;&#x7684;/home/pi/.ssh/authorized_keys&#x4E2D;&#xFF0C;&#x4E00;&#x884C;&#x4E00;&#x4E2A;&#xFF08;win&#x4E0B;&#x7684;&#x662F;&#x6709;&#x5206;&#x6210;&#x4E24;&#x884C;&#xFF09;&#xFF1B;&#x53E6;&#x5916;&#x9700;&#x8981;&#x4FEE;&#x6539;authorized_keys&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x7528;&#x6237;&#x7EC4;&#x4E3A;pi&#x3002;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown pi:pi authorized_keys</span><br></pre></td></tr></table></figure></p>
+<h3 id="&#x516B;&#x3001;samba-&#x642D;&#x5EFA;"><a href="#&#x516B;&#x3001;samba-&#x642D;&#x5EFA;" class="headerlink" title="&#x516B;&#x3001;samba &#x642D;&#x5EFA;"></a>&#x516B;&#x3001;samba &#x642D;&#x5EFA;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install samba</span><br><span class="line">sudo apt-get install samba-common-bin</span><br></pre></td></tr></table></figure>
+<p>1&#x3001;&#x5220;&#x9664;home share dir<br>2&#x3001;&#x589E;&#x52A0;&#x4E0B;&#x5217;&#x914D;&#x7F6E;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[Play]</span><br><span class="line">     comment =Pi Play</span><br><span class="line">     path = /media/pi/play/</span><br><span class="line">     read only = no</span><br><span class="line">     public = yes</span><br><span class="line">     guest ok = no</span><br></pre></td></tr></table></figure></p>
+<p>3&#x3001;&#x91CD;&#x542F;samba<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/samba restart</span><br></pre></td></tr></table></figure></p>
+<h3 id="&#x4E5D;&#x3001;&#x786C;&#x76D8;&#x4F11;&#x7720;"><a href="#&#x4E5D;&#x3001;&#x786C;&#x76D8;&#x4F11;&#x7720;" class="headerlink" title="&#x4E5D;&#x3001;&#x786C;&#x76D8;&#x4F11;&#x7720;"></a>&#x4E5D;&#x3001;&#x786C;&#x76D8;&#x4F11;&#x7720;</h3><p>&#x6302;&#x8F7D;&#x4E86;&#x4E24;&#x4E2A;&#x786C;&#x76D8;&#xFF0C;&#x4E00;&#x4E2A;&#x786C;&#x76D8;&#x4E0D;&#x5E38;&#x7528;&#xFF0C;&#x8BBE;&#x7F6E;&#x4F11;&#x7720;&#x7701;&#x7535;&#x3001;&#x9759;&#x97F3;&#x3002;</p>
+<p>&#x67E5;&#x770B;&#x786C;&#x76D8;&#x8BBE;&#x5907;&#x540D;&#xFF0C;&#x4E00;&#x822C;&#x5C31;&#x662F;/dev/sda,dev/sdb&#x4E4B;&#x7C7B;&#x7684;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo blkid</span><br></pre></td></tr></table></figure></p>
+<p>&#x786E;&#x8BA4;&#x4E3A;/dev/sda</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/hdparm.conf</span><br></pre></td></tr></table></figure>
+<p>spindown_time&#x503C;&#x4E58;&#x4EE5; 5 &#x5F97;&#x5230;&#x603B;&#x7684;&#x65F6;&#x95F4;&#xFF08;&#x5355;&#x4F4D;&#x79D2;&#xFF09;. &#x4F8B;&#x5982;&#x60F3;&#x914D;&#x7F6E;&#x6210;&#x7A7A;&#x95F2;10&#x5206;&#x949F;&#x5C31;&#x4F11;&#x7720;&#xFF0C;spindown_time = 10 * 60 / 5 = 120<br>&#x589E;&#x52A0;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/dev/sda {</span><br><span class="line">write_cache = on</span><br><span class="line">spindown_time = 120</span><br><span class="line">poweron_standby = on</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/树莓派/" rel="tag">#树莓派</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/10/battery/" rel="next" title="Android 耗电量统计">
+                <i class="fa fa-chevron-left"></i> Android 耗电量统计
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/14/AndroidLog/" rel="prev" title="Android Log 打印">
+                Android Log 打印 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2018/02/12/raspberry/"
+           data-title="树莓派配置记录备份" data-url="http://lazycountry.github.io/2018/02/12/raspberry/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="懒人国度" />
+          <p class="site-author-name" itemprop="name">懒人国度</p>
+          <p class="site-description motion-element" itemprop="description">尽力去做，但是到了实在不行的时候就原谅自己</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LazyCountry" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/LazyCountry" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、将树莓派根分区扩展到整张sd卡"><span class="nav-number">1.</span> <span class="nav-text">一、将树莓派根分区扩展到整张sd卡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、开启root用户"><span class="nav-number">2.</span> <span class="nav-text">二、开启root用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、给树莓派设置固定dns"><span class="nav-number">3.</span> <span class="nav-text">三、给树莓派设置固定dns</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、给树莓派指定ip，网关"><span class="nav-number">4.</span> <span class="nav-text">四、给树莓派指定ip，网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、将树莓派作为家里的网关"><span class="nav-number">5.</span> <span class="nav-text">五、将树莓派作为家里的网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、使用树莓派屏蔽家里的广告"><span class="nav-number">6.</span> <span class="nav-text">六、使用树莓派屏蔽家里的广告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、git-server搭建"><span class="nav-number">7.</span> <span class="nav-text">七、git server搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八、samba-搭建"><span class="nav-number">8.</span> <span class="nav-text">八、samba 搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#九、硬盘休眠"><span class="nav-number">9.</span> <span class="nav-text">九、硬盘休眠</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">懒人国度</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lazycountry"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("s2Be5mNvlWpliq1Aj2mAe2Wo-gzGzoHsz", "QSWwVz0vT3Ppow51GO3xgyvg");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
