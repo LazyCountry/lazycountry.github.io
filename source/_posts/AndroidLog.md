@@ -3,6 +3,7 @@ title: Android Log 打印
 tags: 
    - Android
    - LOG
+   - 日志
 -----
 
 ## Android Log 打印
